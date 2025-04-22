@@ -1,0 +1,16 @@
+jupyter
+numpy
+pandas
+scikit-learn
+lets-plot
+palmerpenguins
+seaborn
+matplotlib
+plotly.express
+polars
+fastexcel
+altair
+altair_viewer
+nbformat
+nbclient
+pyyaml
