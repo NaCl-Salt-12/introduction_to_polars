@@ -1,0 +1,21 @@
+date,region,sales_rep,product_category,units_sold,revenue,cost,customer_segment
+2023-01-15,North,John Smith,Electronics,12,5999.88,3599.93,Enterprise
+2023-01-16,South,Maria Garcia,Office Supplies,45,899.55,539.73,SMB
+2023-01-16,East,David Johnson,Furniture,5,4499.95,3149.97,Enterprise
+2023-01-17,West,Lisa Wong,Electronics,8,3999.92,2399.95,Consumer
+2023-01-17,North,John Smith,Software,22,2199.78,659.93,SMB
+2023-01-18,South,Maria Garcia,Furniture,3,2699.97,1889.98,Consumer
+2023-01-18,East,David Johnson,Office Supplies,67,1340.00,804.00,Enterprise
+2023-01-19,West,Lisa Wong,Software,14,1399.86,419.96,SMB
+2023-01-19,North,Sarah Miller,Electronics,9,4499.91,2699.95,Consumer
+2023-01-20,South,Robert Chen,Furniture,7,6299.93,4409.95,Enterprise
+2023-01-20,East,Emma Wilson,Software,31,3099.69,929.91,SMB
+2023-01-21,West,Michael Brown,Office Supplies,52,1040.00,624.00,Consumer
+2023-01-21,North,Sarah Miller,Electronics,15,7499.85,4499.91,Enterprise
+2023-01-22,South,Robert Chen,Software,19,1899.81,569.94,Consumer
+2023-01-22,East,Emma Wilson,Furniture,4,3599.96,2519.97,SMB
+2023-01-23,West,Michael Brown,Electronics,11,5499.89,3299.93,Enterprise
+2023-01-23,North,John Smith,Office Supplies,83,1660.00,996.00,Consumer
+2023-01-24,South,Maria Garcia,Software,27,2699.73,809.92,SMB
+2023-01-24,East,David Johnson,Electronics,6,2999.94,1799.96,Enterprise
+2023-01-25,West,Lisa Wong,Furniture,8,7199.92,5039.94,Consumer

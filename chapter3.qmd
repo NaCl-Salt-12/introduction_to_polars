@@ -148,3 +148,15 @@ dataframe.tail(n)
 ```
 Where n is the number of rows to return if you give it a negative number it will turn all rows except the first n rows.
 
+
+```{python}
+# Import data from the sales.csv file into a Polars DataFrame
+sales_df = pl.read_csv("./data/sales.csv")
+
+# Display the last 6 rows of the sales DataFrame
+sales_df.tail(6)
+```
+
+::: {.callout-note}
+For more information on reading in external data see @sec-appendix-b
+:::
