@@ -252,7 +252,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>Creating a Series is straightforward with the following syntax:</p>
 <p><code>pl.Series(name, values_list)</code></p>
 <p>Where “name” is the label for your Series and “values_list” contains the data. Here’s a simple example:</p>
-<div id="45876601" class="cell" data-execution_count="1">
+<div id="3b75b675" class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> polars <span class="im">as</span> pl</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>s <span class="op">=</span> pl.Series(<span class="st">"example"</span>, [<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">4</span>, <span class="dv">5</span>])</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>s</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -296,7 +296,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 <p>When you create a series Polars will infer the data type for the values you provide. So in the above example I gave it [1, 2, 3, 4, 5] and it set the datatype to Int64 if instead gave it [1, 2, 3, 4.0, 5] it would asume it is Float64.</p>
-<div id="70257f9b" class="cell" data-execution_count="2">
+<div id="dde6a540" class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>s2 <span class="op">=</span> pl.Series(<span class="st">"payment"</span>, [<span class="fl">132.50</span>, <span class="dv">120</span>, <span class="dv">116</span>, <span class="fl">98.75</span> ,<span class="dv">42</span>])</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>s2</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="2">
@@ -338,7 +338,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 </div>
-<div id="2a10610d" class="cell" data-execution_count="3">
+<div id="457367c8" class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>s3 <span class="op">=</span> pl.Series(<span class="st">"mixed"</span>, [<span class="dv">1</span>, <span class="st">"text"</span>, <span class="va">True</span>, <span class="fl">3.14</span>], strict<span class="op">=</span><span class="va">False</span>)</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="co"># series.dytpe outputs a the data type of the series</span></span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Mixed series type: </span><span class="sc">{</span>s3<span class="sc">.</span>dtype<span class="sc">}</span><span class="ss">"</span>)</span>
@@ -383,7 +383,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 <p>You can set the data type of the series as well by using the <code>dtype</code> parameter. A example use case is when storing a id number the id number should be stored as a string not a int due to the fact that we we do not want to perform mathmatical operations on the identification number therefore it is best stored as a string.</p>
-<div id="b9dcbffb" class="cell" data-execution_count="4">
+<div id="f6ea0655" class="cell" data-execution_count="4">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># strict=False allows automatic conversion from different data types</span></span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>s3 <span class="op">=</span> pl.Series(<span class="st">"id number"</span>, [<span class="dv">143823</span>, <span class="dv">194203</span>, <span class="dv">553420</span>, <span class="dv">234325</span>, <span class="dv">236532</span>], dtype<span class="op">=</span>pl.Utf8, strict<span class="op">=</span><span class="va">False</span>)</span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>s3</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -443,7 +443,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li>By importing existing tabular data from CSVs, JSON, SQL, Parquet files, etc.</li>
 </ol>
 <p>In real-world environments, you’ll typically work with preexisting data, though understanding various creation methods is valuable. We’ll cover data import techniques later, but for now, here’s an example of a DataFrame created from a dictionary of lists:</p>
-<div id="885d5515" class="cell" data-execution_count="5">
+<div id="70200401" class="cell" data-execution_count="5">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Create a DataFrame from a dictionary of lists</span></span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> pl.DataFrame({</span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">"name"</span>: [<span class="st">"Alice"</span>, <span class="st">"Bob"</span>, <span class="st">"Charlie"</span>, <span class="st">"David"</span>],</span>
@@ -509,14 +509,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 <p>every data frame has a shape. the shape is the number of rows and columns in a dataframe <code>shape(rows,columns)</code></p>
 <p>the shape for the above dataframe is:</p>
-<div id="2b486a82" class="cell" data-execution_count="6">
+<div id="264313b0" class="cell" data-execution_count="6">
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(df.shape)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>(4, 4)</code></pre>
 </div>
 </div>
 <p>you can view the schema of any dataframe with the following command</p>
-<div id="e535f8b3" class="cell" data-execution_count="7">
+<div id="ea38ad0a" class="cell" data-execution_count="7">
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(df.schema)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Schema({'name': String, 'age': Int64, 'city': String, 'salary': Int64})</code></pre>
@@ -540,7 +540,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>the <code>head</code> functions allows you to view the first x rows of the dataframe. By default the number of rows it shows is 5, though you can specify the number of rows to view.</p>
 <div class="sourceCode" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>dataframe.head(n)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Where n is the number of rows to return if you give it a negative number it will turn all rows except the last n rows.</p>
-<div id="49184b51" class="cell" data-execution_count="8">
+<div id="3d8b707b" class="cell" data-execution_count="8">
 <div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Create NumPy arrays for sandwich data</span></span>
@@ -613,6 +613,123 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>The <code>tail</code> function is essentially the inverse of head. It allows you to view the last n rows of the dataframe. The default for tail is also five rows.</p>
 <div class="sourceCode" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>dataframe.tail(n)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Where n is the number of rows to return if you give it a negative number it will turn all rows except the first n rows.</p>
+<div id="de246b89" class="cell" data-execution_count="9">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Import data from the sales.csv file into a Polars DataFrame</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>sales_df <span class="op">=</span> pl.read_csv(<span class="st">"./data/sales.csv"</span>)</span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Display the last 6 rows of the sales DataFrame</span></span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>sales_df.tail(<span class="dv">6</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="9">
+<div><style>
+.dataframe > thead > tr,
+.dataframe > tbody > tr {
+  text-align: right;
+  white-space: pre-wrap;
+}
+</style>
+<small>shape: (6, 8)</small>
+<table class="dataframe caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th">date</th>
+<th data-quarto-table-cell-role="th">region</th>
+<th data-quarto-table-cell-role="th">sales_rep</th>
+<th data-quarto-table-cell-role="th">product_category</th>
+<th data-quarto-table-cell-role="th">units_sold</th>
+<th data-quarto-table-cell-role="th">revenue</th>
+<th data-quarto-table-cell-role="th">cost</th>
+<th data-quarto-table-cell-role="th">customer_segment</th>
+</tr>
+<tr class="even">
+<th>str</th>
+<th>str</th>
+<th>str</th>
+<th>str</th>
+<th>i64</th>
+<th>f64</th>
+<th>f64</th>
+<th>str</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>"2023-01-22"</td>
+<td>"East"</td>
+<td>"Emma Wilson"</td>
+<td>"Furniture"</td>
+<td>4</td>
+<td>3599.96</td>
+<td>2519.97</td>
+<td>"SMB"</td>
+</tr>
+<tr class="even">
+<td>"2023-01-23"</td>
+<td>"West"</td>
+<td>"Michael Brown"</td>
+<td>"Electronics"</td>
+<td>11</td>
+<td>5499.89</td>
+<td>3299.93</td>
+<td>"Enterprise"</td>
+</tr>
+<tr class="odd">
+<td>"2023-01-23"</td>
+<td>"North"</td>
+<td>"John Smith"</td>
+<td>"Office Supplies"</td>
+<td>83</td>
+<td>1660.0</td>
+<td>996.0</td>
+<td>"Consumer"</td>
+</tr>
+<tr class="even">
+<td>"2023-01-24"</td>
+<td>"South"</td>
+<td>"Maria Garcia"</td>
+<td>"Software"</td>
+<td>27</td>
+<td>2699.73</td>
+<td>809.92</td>
+<td>"SMB"</td>
+</tr>
+<tr class="odd">
+<td>"2023-01-24"</td>
+<td>"East"</td>
+<td>"David Johnson"</td>
+<td>"Electronics"</td>
+<td>6</td>
+<td>2999.94</td>
+<td>1799.96</td>
+<td>"Enterprise"</td>
+</tr>
+<tr class="even">
+<td>"2023-01-25"</td>
+<td>"West"</td>
+<td>"Lisa Wong"</td>
+<td>"Furniture"</td>
+<td>8</td>
+<td>7199.92</td>
+<td>5039.94</td>
+<td>"Consumer"</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>For more information on reading in external data see <a href="appendix2.html" class="quarto-xref"><span>Appendix B</span></a></p>
+</div>
+</div>
 
 
 </section>

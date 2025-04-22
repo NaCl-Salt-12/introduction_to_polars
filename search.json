@@ -114,7 +114,7 @@
     "href": "chapter3.html#inspecting-dataframes",
     "title": "3  Dataframes and Series",
     "section": "3.4 Inspecting Dataframes",
-    "text": "3.4 Inspecting Dataframes\nIn polars there are a varity of ways to inspect a dataframe, all of which have different use cases. The ones that we will be covering right now are:\n\nhead\ntail\nglimpse\nsample\ndescribe\nslice\n\n\n3.4.1 head\nthe head functions allows you to view the first x rows of the dataframe. By default the number of rows it shows is 5, though you can specify the number of rows to view.\ndataframe.head(n)\nWhere n is the number of rows to return if you give it a negative number it will turn all rows except the last n rows.\n\nimport numpy as np\n\n# Create NumPy arrays for sandwich data\nsandwich_names = np.array(['BLT', 'Club', 'Tuna', 'Ham & Cheese', 'Veggie'])\nprices = np.array([8.99, 10.50, 7.50, 6.99, 6.50])\ncalories = np.array([550, 720, 480, 520, 320])\nvegetarian = np.array([False, False, False, False, True])\n\n# Create DataFrame from NumPy arrays\nsandwich_df = pl.DataFrame({\n    \"sandwich\": sandwich_names,\n    \"price\": prices,\n    \"calories\": calories,\n    \"vegetarian\": vegetarian\n})\n\n\nsandwich_df.head(3)\n\n\nshape: (3, 4)\n\n\n\nsandwich\nprice\ncalories\nvegetarian\n\n\nstr\nf64\ni64\nbool\n\n\n\n\n\"BLT\"\n8.99\n550\nfalse\n\n\n\"Club\"\n10.5\n720\nfalse\n\n\n\"Tuna\"\n7.5\n480\nfalse\n\n\n\n\n\n\n\n\n3.4.2 tail\nThe tail function is essentially the inverse of head. It allows you to view the last n rows of the dataframe. The default for tail is also five rows.\ndataframe.tail(n)\nWhere n is the number of rows to return if you give it a negative number it will turn all rows except the first n rows.",
+    "text": "3.4 Inspecting Dataframes\nIn polars there are a varity of ways to inspect a dataframe, all of which have different use cases. The ones that we will be covering right now are:\n\nhead\ntail\nglimpse\nsample\ndescribe\nslice\n\n\n3.4.1 head\nthe head functions allows you to view the first x rows of the dataframe. By default the number of rows it shows is 5, though you can specify the number of rows to view.\ndataframe.head(n)\nWhere n is the number of rows to return if you give it a negative number it will turn all rows except the last n rows.\n\nimport numpy as np\n\n# Create NumPy arrays for sandwich data\nsandwich_names = np.array(['BLT', 'Club', 'Tuna', 'Ham & Cheese', 'Veggie'])\nprices = np.array([8.99, 10.50, 7.50, 6.99, 6.50])\ncalories = np.array([550, 720, 480, 520, 320])\nvegetarian = np.array([False, False, False, False, True])\n\n# Create DataFrame from NumPy arrays\nsandwich_df = pl.DataFrame({\n    \"sandwich\": sandwich_names,\n    \"price\": prices,\n    \"calories\": calories,\n    \"vegetarian\": vegetarian\n})\n\n\nsandwich_df.head(3)\n\n\nshape: (3, 4)\n\n\n\nsandwich\nprice\ncalories\nvegetarian\n\n\nstr\nf64\ni64\nbool\n\n\n\n\n\"BLT\"\n8.99\n550\nfalse\n\n\n\"Club\"\n10.5\n720\nfalse\n\n\n\"Tuna\"\n7.5\n480\nfalse\n\n\n\n\n\n\n\n\n3.4.2 tail\nThe tail function is essentially the inverse of head. It allows you to view the last n rows of the dataframe. The default for tail is also five rows.\ndataframe.tail(n)\nWhere n is the number of rows to return if you give it a negative number it will turn all rows except the first n rows.\n\n# Import data from the sales.csv file into a Polars DataFrame\nsales_df = pl.read_csv(\"./data/sales.csv\")\n\n# Display the last 6 rows of the sales DataFrame\nsales_df.tail(6)\n\n\nshape: (6, 8)\n\n\n\ndate\nregion\nsales_rep\nproduct_category\nunits_sold\nrevenue\ncost\ncustomer_segment\n\n\nstr\nstr\nstr\nstr\ni64\nf64\nf64\nstr\n\n\n\n\n\"2023-01-22\"\n\"East\"\n\"Emma Wilson\"\n\"Furniture\"\n4\n3599.96\n2519.97\n\"SMB\"\n\n\n\"2023-01-23\"\n\"West\"\n\"Michael Brown\"\n\"Electronics\"\n11\n5499.89\n3299.93\n\"Enterprise\"\n\n\n\"2023-01-23\"\n\"North\"\n\"John Smith\"\n\"Office Supplies\"\n83\n1660.0\n996.0\n\"Consumer\"\n\n\n\"2023-01-24\"\n\"South\"\n\"Maria Garcia\"\n\"Software\"\n27\n2699.73\n809.92\n\"SMB\"\n\n\n\"2023-01-24\"\n\"East\"\n\"David Johnson\"\n\"Electronics\"\n6\n2999.94\n1799.96\n\"Enterprise\"\n\n\n\"2023-01-25\"\n\"West\"\n\"Lisa Wong\"\n\"Furniture\"\n8\n7199.92\n5039.94\n\"Consumer\"\n\n\n\n\n\n\n\n\n\n\n\n\nNote\n\n\n\nFor more information on reading in external data see Appendix B",
     "crumbs": [
       "<span class='chapter-number'>3</span>  <span class='chapter-title'>Dataframes and Series</span>"
     ]
@@ -128,6 +128,72 @@
     "crumbs": [
       "Appendices",
       "<span class='chapter-number'>A</span>  <span class='chapter-title'>Common Data Types</span>"
+    ]
+  },
+  {
+    "objectID": "appendix2.html",
+    "href": "appendix2.html",
+    "title": "Appendix B — Reading and Writing Data",
+    "section": "",
+    "text": "B.1 CSV Files\nPolars provides robust capabilities for importing data from various sources including CSVs, JSONs, Excel spreadsheets, Parquet files, cloud storage solutions (AWS, Azure, and Google Cloud), and databases.\nThe importing methods follow a consistent pattern across file types, making it easy to work with different data formats.\nThe basic syntax for reading a CSV file is:\nAlternatively, you can also read CSV files directly from the internet:\nThis capability to read files directly from URLs also works with all the file import methods we’ll cover below.\nThis function offers numerous parameters to handle different CSV formats and configurations. For more information read the documentation.\nimport polars as pl\n\ndf_csv = pl.read_csv(\"./data/example.csv\", try_parse_dates=True)\ndf_csv.head(5)\n\n\nshape: (5, 9)\n\n\n\nid\nfirst_name\nlast_name\nemail\npurchase_date\nproduct\nquantity\nprice\ntotal\n\n\ni64\nstr\nstr\nstr\ndate\nstr\ni64\nf64\nf64\n\n\n\n\n1\n\"John\"\n\"Doe\"\n\"john.doe@example.com\"\n2023-01-15\n\"Laptop\"\n1\n1299.99\n1299.99\n\n\n2\n\"Jane\"\n\"Smith\"\n\"jane.smith@example.com\"\n2023-01-16\n\"Smartphone\"\n2\n699.95\n1399.9\n\n\n3\n\"Robert\"\n\"Johnson\"\n\"rob.j@example.com\"\n2023-01-18\n\"Headphones, Wireless\"\n3\n89.99\n269.97\n\n\n4\n\"Sarah\"\n\"Williams\"\n\"sarah.w@example.com\"\n2023-01-20\n\"Monitor\"\n1\n249.5\n249.5\n\n\n5\n\"Michael\"\n\"Brown\"\n\"michael.b@example.com\"\n2023-01-22\n\"Keyboard\"\n2\n59.99\n119.98",
+    "crumbs": [
+      "Appendices",
+      "<span class='chapter-number'>B</span>  <span class='chapter-title'>Reading and Writing Data</span>"
+    ]
+  },
+  {
+    "objectID": "appendix2.html#csv-files",
+    "href": "appendix2.html#csv-files",
+    "title": "Appendix B — Reading and Writing Data",
+    "section": "",
+    "text": "pl.read_csv(\"path/to/data.csv\")\n\npl.read_csv(\"https://example.com/path/to/your/file.csv\")",
+    "crumbs": [
+      "Appendices",
+      "<span class='chapter-number'>B</span>  <span class='chapter-title'>Reading and Writing Data</span>"
+    ]
+  },
+  {
+    "objectID": "appendix2.html#json-files",
+    "href": "appendix2.html#json-files",
+    "title": "Appendix B — Reading and Writing Data",
+    "section": "B.2 JSON Files",
+    "text": "B.2 JSON Files\nReading JSON files follows a similar pattern. The basic syntax is:\npl.read_json(\"docs/data/path.json\")\nJSON files have a more standardized structure than CSVs, so the reading process requires fewer configuration parameters. Polars handles JSON parsing efficiently with minimal setup. For advanced options and configurations, consult the official documentation.\ndf_json = pl.read_json(\"./data/basketball.json\")\n\ndf_json",
+    "crumbs": [
+      "Appendices",
+      "<span class='chapter-number'>B</span>  <span class='chapter-title'>Reading and Writing Data</span>"
+    ]
+  },
+  {
+    "objectID": "appendix2.html#excel",
+    "href": "appendix2.html#excel",
+    "title": "Appendix B — Reading and Writing Data",
+    "section": "B.3 Excel",
+    "text": "B.3 Excel\nPolars doesn’t include a native Excel reader. Instead, it leverages external libraries like fastexcel, xlsx2csv, or openpyxl to parse Excel files into Polars-compatible formats. Among these options, Polars recommends fastexcel for optimal performance.\nWhile it’s generally better to avoid using Excel files where possible (you can usually export as CSV directly from Excel), reading Excel files is straightforward with the right dependencies installed.\nBefore attempting to read Excel files, make sure you have at least one of these libraries installed:\n $ pip install fastexcel xlsx2csv openpyxl\nThe basic syntax for reading an Excel file with Polars is:\npl.read_excel(\"path/to/data.xlsx\")\nIf your Excel file contains multiple sheets, you can specify which one to read using the sheet_name parameter:\ndf = pl.read_excel(\"path/to/data.xlsx\", sheet_name=\"example\")\nFor additional Excel reading options and parameters, refer to the Polars Excel documentation, which covers sheet selection, range specification, and handling of complex Excel files.\n\ndf_xlsx = pl.read_excel(\"./data/penguins.xlsx\", sheet_name=\"Dream Island\")\n\ndf_xlsx.tail(5)\n\n\nshape: (5, 8)\n\n\n\nspecies\nisland\nbill_length_mm\nbill_depth_mm\nflipper_length_mm\nbody_mass_g\nsex\nyear\n\n\nstr\nstr\nf64\nf64\ni64\ni64\nstr\ni64\n\n\n\n\n\"Chinstrap\"\n\"Dream\"\n55.8\n19.8\n207\n4000\n\"male\"\n2009\n\n\n\"Chinstrap\"\n\"Dream\"\n43.5\n18.1\n202\n3400\n\"female\"\n2009\n\n\n\"Chinstrap\"\n\"Dream\"\n49.6\n18.2\n193\n3775\n\"male\"\n2009\n\n\n\"Chinstrap\"\n\"Dream\"\n50.8\n19.0\n210\n4100\n\"male\"\n2009\n\n\n\"Chinstrap\"\n\"Dream\"\n50.2\n18.7\n198\n3775\n\"female\"\n2009\n\n\n\n\n\n\nThis example spreadsheet can be accessed via this Google Sheets link.",
+    "crumbs": [
+      "Appendices",
+      "<span class='chapter-number'>B</span>  <span class='chapter-title'>Reading and Writing Data</span>"
+    ]
+  },
+  {
+    "objectID": "appendix2.html#parquet-files",
+    "href": "appendix2.html#parquet-files",
+    "title": "Appendix B — Reading and Writing Data",
+    "section": "B.4 Parquet Files",
+    "text": "B.4 Parquet Files\nParquet is a columnar storage format designed for efficient data analytics. It provides excellent compression and fast query performance, making it a popular choice for data science workflows. Polars includes native, high-performance support for reading Parquet files.\nThe basic syntax for reading a Parquet file is:\npl.read_parquet(\"path/to/data.parquet\")\n\ndf_par = pl.read_parquet(\"./data/finance.parquet\")\ndf_par.sample(4)\n\n\nshape: (4, 10)\n\n\n\ndate\nticker\nopen\nhigh\nlow\nclose\nvolume\npe_ratio\ndividend_yield\nmarket_cap\n\n\ndatetime[ns]\nstr\nf64\nf64\nf64\nf64\ni64\nf64\nf64\nf64\n\n\n\n\n2024-04-19 00:00:00\n\"AAPL\"\n217.83\n219.19\n216.63\n218.74\n2922733\n31.33\n0.006\n5.6996e9\n\n\n2024-07-03 00:00:00\n\"MSFT\"\n188.88\n190.92\n188.08\n189.27\n1534006\n25.98\n0.0035\n3.1669e9\n\n\n2024-05-01 00:00:00\n\"AAPL\"\n203.43\n205.42\n203.11\n204.03\n2203358\n31.41\n0.027\n4.8339e9\n\n\n2024-09-09 00:00:00\n\"MSFT\"\n246.0\n246.79\n245.29\n246.16\n1500697\n30.22\n0.0019\n2.6468e9",
+    "crumbs": [
+      "Appendices",
+      "<span class='chapter-number'>B</span>  <span class='chapter-title'>Reading and Writing Data</span>"
+    ]
+  },
+  {
+    "objectID": "appendix2.html#importing-mutiple-files",
+    "href": "appendix2.html#importing-mutiple-files",
+    "title": "Appendix B — Reading and Writing Data",
+    "section": "B.5 Importing Mutiple files",
+    "text": "B.5 Importing Mutiple files\nFor situations where you need to combine data from multiple files into a single DataFrame, Polars offers straightforward approaches. While the syntax is relatively simple, the implementation may vary depending on your specific file organization.\nWhen working with multiple files of the same type and similar naming patterns in a single directory, Polars supports glob pattern matching:\npl.read_filetype(\"path/to/data/my_many_files_*.filetype\")\nFor files with different names but the same format, placing them in a single directory allows you to use wildcard patterns to import them all at once:\npl.read_filetype(\"path/to/data/import/*.filetype\")\nAlternatively, for files located in different directories or even on different servers, you can provide a list of filepaths or URLs:\npl.read_filetype([\n    \"path/to/first/file.filetype\",\n    \"path/to/second/file.filetype\",\n    \"another/location/file.filetype\"\n])\nIf you’re working with different file types that share the same schema (identical columns and datatypes) and want to combine them into a single DataFrame, you’ll need to read each file individually and then concatenate them. Polars makes this process straightforward with its concat function, which can merge DataFrames regardless of their original file formats.\n# Read files of different formats\ndf1 = pl.read_csv(\"path/to/file.csv\")\ndf2 = pl.read_parquet(\"path/to/file.parquet\")\ndf3 = pl.read_json(\"path/to/file.json\")\n\n# Concatenate into a single DataFrame\ncombined_df = pl.concat([df1, df2, df3], how=\"vertical\")",
+    "crumbs": [
+      "Appendices",
+      "<span class='chapter-number'>B</span>  <span class='chapter-title'>Reading and Writing Data</span>"
     ]
   }
 ]

@@ -20,10 +20,44 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 </style>
 
 
-<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script><script src="site_libs/quarto-nav/quarto-nav.js"></script>
 <script src="site_libs/quarto-nav/headroom.min.js"></script>
 <script src="site_libs/clipboard/clipboard.min.js"></script>
 <script src="site_libs/quarto-search/autocomplete.umd.js"></script>
@@ -67,6 +101,9 @@ ul.task-list li input[type="checkbox"] {
     "search-label": "Search"
   }
 }</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" integrity="sha512-c3Nl8+7g4LMSTdrm621y7kf9v3SDPnhxLNhcjFJbKECVnmZHTdo+IRO05sNLTH/D3vA6u1X32ehoLC7WFVdheg==" crossorigin="anonymous"></script>
+
+<script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
 
 
 <link rel="stylesheet" href="styles.css">
@@ -163,15 +200,25 @@ ul.task-list li input[type="checkbox"] {
 </nav>
 <div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
-        
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul class="collapse">
+  <li><a href="#csv-files" id="toc-csv-files" class="nav-link active" data-scroll-target="#csv-files"><span class="header-section-number">B.1</span> CSV Files</a></li>
+  <li><a href="#json-files" id="toc-json-files" class="nav-link" data-scroll-target="#json-files"><span class="header-section-number">B.2</span> JSON Files</a></li>
+  <li><a href="#excel" id="toc-excel" class="nav-link" data-scroll-target="#excel"><span class="header-section-number">B.3</span> Excel</a></li>
+  <li><a href="#parquet-files" id="toc-parquet-files" class="nav-link" data-scroll-target="#parquet-files"><span class="header-section-number">B.4</span> Parquet Files</a></li>
+  <li><a href="#importing-mutiple-files" id="toc-importing-mutiple-files" class="nav-link" data-scroll-target="#importing-mutiple-files"><span class="header-section-number">B.5</span> Importing Mutiple files</a></li>
+  </ul>
+</nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
 <header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./appendix1.html">Appendices</a></li><li class="breadcrumb-item"><a href="./appendix2.html"><span class="chapter-number">B</span>&nbsp; <span class="chapter-title">Reading and Writing Data</span></a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title">Appendix B — Reading and Writing Data</h1>
+<h1 class="title"><span id="sec-appendix-b" class="quarto-section-identifier">Appendix B — Reading and Writing Data</span></h1>
 </div>
 
 
@@ -188,8 +235,354 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
+<p>Polars provides robust capabilities for importing data from various sources including CSVs, JSONs, Excel spreadsheets, Parquet files, cloud storage solutions (AWS, Azure, and Google Cloud), and databases.</p>
+<p>The importing methods follow a consistent pattern across file types, making it easy to work with different data formats.</p>
+<section id="csv-files" class="level2" data-number="B.1">
+<h2 data-number="B.1" class="anchored" data-anchor-id="csv-files"><span class="header-section-number">B.1</span> CSV Files</h2>
+<p>The basic syntax for reading a CSV file is:</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>pl.read_csv(<span class="st">"path/to/data.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Alternatively, you can also read CSV files directly from the internet:</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>pl.read_csv(<span class="st">"https://example.com/path/to/your/file.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>This capability to read files directly from URLs also works with all the file import methods we’ll cover below.</p>
+<p>This function offers numerous parameters to handle different CSV formats and configurations. For more information read the <a href="https://pola-rs.github.io/polars/py-polars/html/reference/api/polars.read_csv.html">documentation</a>.</p>
+<div id="b9f1a80c" class="cell" data-execution_count="1">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> polars <span class="im">as</span> pl</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>df_csv <span class="op">=</span> pl.read_csv(<span class="st">"./data/example.csv"</span>, try_parse_dates<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>df_csv.head(<span class="dv">5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="1">
+<div><style>
+.dataframe > thead > tr,
+.dataframe > tbody > tr {
+  text-align: right;
+  white-space: pre-wrap;
+}
+</style>
+<small>shape: (5, 9)</small>
+<table class="dataframe caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th">id</th>
+<th data-quarto-table-cell-role="th">first_name</th>
+<th data-quarto-table-cell-role="th">last_name</th>
+<th data-quarto-table-cell-role="th">email</th>
+<th data-quarto-table-cell-role="th">purchase_date</th>
+<th data-quarto-table-cell-role="th">product</th>
+<th data-quarto-table-cell-role="th">quantity</th>
+<th data-quarto-table-cell-role="th">price</th>
+<th data-quarto-table-cell-role="th">total</th>
+</tr>
+<tr class="even">
+<th>i64</th>
+<th>str</th>
+<th>str</th>
+<th>str</th>
+<th>date</th>
+<th>str</th>
+<th>i64</th>
+<th>f64</th>
+<th>f64</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>1</td>
+<td>"John"</td>
+<td>"Doe"</td>
+<td>"john.doe@example.com"</td>
+<td>2023-01-15</td>
+<td>"Laptop"</td>
+<td>1</td>
+<td>1299.99</td>
+<td>1299.99</td>
+</tr>
+<tr class="even">
+<td>2</td>
+<td>"Jane"</td>
+<td>"Smith"</td>
+<td>"jane.smith@example.com"</td>
+<td>2023-01-16</td>
+<td>"Smartphone"</td>
+<td>2</td>
+<td>699.95</td>
+<td>1399.9</td>
+</tr>
+<tr class="odd">
+<td>3</td>
+<td>"Robert"</td>
+<td>"Johnson"</td>
+<td>"rob.j@example.com"</td>
+<td>2023-01-18</td>
+<td>"Headphones, Wireless"</td>
+<td>3</td>
+<td>89.99</td>
+<td>269.97</td>
+</tr>
+<tr class="even">
+<td>4</td>
+<td>"Sarah"</td>
+<td>"Williams"</td>
+<td>"sarah.w@example.com"</td>
+<td>2023-01-20</td>
+<td>"Monitor"</td>
+<td>1</td>
+<td>249.5</td>
+<td>249.5</td>
+</tr>
+<tr class="odd">
+<td>5</td>
+<td>"Michael"</td>
+<td>"Brown"</td>
+<td>"michael.b@example.com"</td>
+<td>2023-01-22</td>
+<td>"Keyboard"</td>
+<td>2</td>
+<td>59.99</td>
+<td>119.98</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+</section>
+<section id="json-files" class="level2" data-number="B.2">
+<h2 data-number="B.2" class="anchored" data-anchor-id="json-files"><span class="header-section-number">B.2</span> JSON Files</h2>
+<p>Reading JSON files follows a similar pattern. The basic syntax is:</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>pl.read_json(<span class="st">"docs/data/path.json"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>JSON files have a more standardized structure than CSVs, so the reading process requires fewer configuration parameters. Polars handles JSON parsing efficiently with minimal setup. For advanced options and configurations, consult the official <a href="https://docs.pola.rs/api/python/stable/reference/api/polars.read_json.html">documentation</a>.</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>df_json <span class="op">=</span> pl.read_json(<span class="st">"./data/basketball.json"</span>)</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>df_json</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="excel" class="level2" data-number="B.3">
+<h2 data-number="B.3" class="anchored" data-anchor-id="excel"><span class="header-section-number">B.3</span> Excel</h2>
+<p>Polars doesn’t include a native Excel reader. Instead, it leverages external libraries like fastexcel, xlsx2csv, or openpyxl to parse Excel files into Polars-compatible formats. Among these options, Polars recommends fastexcel for optimal performance.</p>
+<p>While it’s generally better to avoid using Excel files where possible (you can usually export as CSV directly from Excel), reading Excel files is straightforward with the right dependencies installed.</p>
+<p>Before attempting to read Excel files, make sure you have at least one of these libraries installed:</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a> <span class="ex">$</span> pip install fastexcel xlsx2csv openpyxl</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>The basic syntax for reading an Excel file with Polars is:</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>pl.read_excel(<span class="st">"path/to/data.xlsx"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>If your Excel file contains multiple sheets, you can specify which one to read using the <code>sheet_name</code> parameter:</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> pl.read_excel(<span class="st">"path/to/data.xlsx"</span>, sheet_name<span class="op">=</span><span class="st">"example"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>For additional Excel reading options and parameters, refer to the <a href="https://docs.pola.rs/api/python/stable/reference/api/polars.read_excel.html">Polars Excel documentation</a>, which covers sheet selection, range specification, and handling of complex Excel files.</p>
+<div id="8add79e2" class="cell" data-execution_count="2">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>df_xlsx <span class="op">=</span> pl.read_excel(<span class="st">"./data/penguins.xlsx"</span>, sheet_name<span class="op">=</span><span class="st">"Dream Island"</span>)</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>df_xlsx.tail(<span class="dv">5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="2">
+<div><style>
+.dataframe > thead > tr,
+.dataframe > tbody > tr {
+  text-align: right;
+  white-space: pre-wrap;
+}
+</style>
+<small>shape: (5, 8)</small>
+<table class="dataframe caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th">species</th>
+<th data-quarto-table-cell-role="th">island</th>
+<th data-quarto-table-cell-role="th">bill_length_mm</th>
+<th data-quarto-table-cell-role="th">bill_depth_mm</th>
+<th data-quarto-table-cell-role="th">flipper_length_mm</th>
+<th data-quarto-table-cell-role="th">body_mass_g</th>
+<th data-quarto-table-cell-role="th">sex</th>
+<th data-quarto-table-cell-role="th">year</th>
+</tr>
+<tr class="even">
+<th>str</th>
+<th>str</th>
+<th>f64</th>
+<th>f64</th>
+<th>i64</th>
+<th>i64</th>
+<th>str</th>
+<th>i64</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>"Chinstrap"</td>
+<td>"Dream"</td>
+<td>55.8</td>
+<td>19.8</td>
+<td>207</td>
+<td>4000</td>
+<td>"male"</td>
+<td>2009</td>
+</tr>
+<tr class="even">
+<td>"Chinstrap"</td>
+<td>"Dream"</td>
+<td>43.5</td>
+<td>18.1</td>
+<td>202</td>
+<td>3400</td>
+<td>"female"</td>
+<td>2009</td>
+</tr>
+<tr class="odd">
+<td>"Chinstrap"</td>
+<td>"Dream"</td>
+<td>49.6</td>
+<td>18.2</td>
+<td>193</td>
+<td>3775</td>
+<td>"male"</td>
+<td>2009</td>
+</tr>
+<tr class="even">
+<td>"Chinstrap"</td>
+<td>"Dream"</td>
+<td>50.8</td>
+<td>19.0</td>
+<td>210</td>
+<td>4100</td>
+<td>"male"</td>
+<td>2009</td>
+</tr>
+<tr class="odd">
+<td>"Chinstrap"</td>
+<td>"Dream"</td>
+<td>50.2</td>
+<td>18.7</td>
+<td>198</td>
+<td>3775</td>
+<td>"female"</td>
+<td>2009</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<p>This example spreadsheet can be accessed via <a href="https://docs.google.com/spreadsheets/d/1aFu8lnD_g0yjF5O-K6SFgSEWiHPpgvFCF0NY9D6LXnY/edit?gid=0#gid=0">this Google Sheets link</a>.</p>
+</section>
+<section id="parquet-files" class="level2" data-number="B.4">
+<h2 data-number="B.4" class="anchored" data-anchor-id="parquet-files"><span class="header-section-number">B.4</span> Parquet Files</h2>
+<p>Parquet is a columnar storage format designed for efficient data analytics. It provides excellent compression and fast query performance, making it a popular choice for data science workflows. Polars includes native, high-performance support for reading Parquet files.</p>
+<p>The basic syntax for reading a Parquet file is:</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>pl.read_parquet(<span class="st">"path/to/data.parquet"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="4f2b6c06" class="cell" data-execution_count="3">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>df_par <span class="op">=</span> pl.read_parquet(<span class="st">"./data/finance.parquet"</span>)</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>df_par.sample(<span class="dv">4</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="3">
+<div><style>
+.dataframe > thead > tr,
+.dataframe > tbody > tr {
+  text-align: right;
+  white-space: pre-wrap;
+}
+</style>
+<small>shape: (4, 10)</small>
+<table class="dataframe caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th">date</th>
+<th data-quarto-table-cell-role="th">ticker</th>
+<th data-quarto-table-cell-role="th">open</th>
+<th data-quarto-table-cell-role="th">high</th>
+<th data-quarto-table-cell-role="th">low</th>
+<th data-quarto-table-cell-role="th">close</th>
+<th data-quarto-table-cell-role="th">volume</th>
+<th data-quarto-table-cell-role="th">pe_ratio</th>
+<th data-quarto-table-cell-role="th">dividend_yield</th>
+<th data-quarto-table-cell-role="th">market_cap</th>
+</tr>
+<tr class="even">
+<th>datetime[ns]</th>
+<th>str</th>
+<th>f64</th>
+<th>f64</th>
+<th>f64</th>
+<th>f64</th>
+<th>i64</th>
+<th>f64</th>
+<th>f64</th>
+<th>f64</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>2024-04-19 00:00:00</td>
+<td>"AAPL"</td>
+<td>217.83</td>
+<td>219.19</td>
+<td>216.63</td>
+<td>218.74</td>
+<td>2922733</td>
+<td>31.33</td>
+<td>0.006</td>
+<td>5.6996e9</td>
+</tr>
+<tr class="even">
+<td>2024-07-03 00:00:00</td>
+<td>"MSFT"</td>
+<td>188.88</td>
+<td>190.92</td>
+<td>188.08</td>
+<td>189.27</td>
+<td>1534006</td>
+<td>25.98</td>
+<td>0.0035</td>
+<td>3.1669e9</td>
+</tr>
+<tr class="odd">
+<td>2024-05-01 00:00:00</td>
+<td>"AAPL"</td>
+<td>203.43</td>
+<td>205.42</td>
+<td>203.11</td>
+<td>204.03</td>
+<td>2203358</td>
+<td>31.41</td>
+<td>0.027</td>
+<td>4.8339e9</td>
+</tr>
+<tr class="even">
+<td>2024-09-09 00:00:00</td>
+<td>"MSFT"</td>
+<td>246.0</td>
+<td>246.79</td>
+<td>245.29</td>
+<td>246.16</td>
+<td>1500697</td>
+<td>30.22</td>
+<td>0.0019</td>
+<td>2.6468e9</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+</section>
+<section id="importing-mutiple-files" class="level2" data-number="B.5">
+<h2 data-number="B.5" class="anchored" data-anchor-id="importing-mutiple-files"><span class="header-section-number">B.5</span> Importing Mutiple files</h2>
+<p>For situations where you need to combine data from multiple files into a single DataFrame, Polars offers straightforward approaches. While the syntax is relatively simple, the implementation may vary depending on your specific file organization.</p>
+<p>When working with multiple files of the same type and similar naming patterns in a single directory, Polars supports glob pattern matching:</p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>pl.read_filetype(<span class="st">"path/to/data/my_many_files_*.filetype"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>For files with different names but the same format, placing them in a single directory allows you to use wildcard patterns to import them all at once:</p>
+<div class="sourceCode" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>pl.read_filetype(<span class="st">"path/to/data/import/*.filetype"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Alternatively, for files located in different directories or even on different servers, you can provide a list of filepaths or URLs:</p>
+<div class="sourceCode" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>pl.read_filetype([</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>    <span class="st">"path/to/first/file.filetype"</span>,</span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">"path/to/second/file.filetype"</span>,</span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>    <span class="st">"another/location/file.filetype"</span></span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>If you’re working with different file types that share the same schema (identical columns and datatypes) and want to combine them into a single DataFrame, you’ll need to read each file individually and then concatenate them. Polars makes this process straightforward with its <code>concat</code> function, which can merge DataFrames regardless of their original file formats.</p>
+<div class="sourceCode" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Read files of different formats</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>df1 <span class="op">=</span> pl.read_csv(<span class="st">"path/to/file.csv"</span>)</span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>df2 <span class="op">=</span> pl.read_parquet(<span class="st">"path/to/file.parquet"</span>)</span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>df3 <span class="op">=</span> pl.read_json(<span class="st">"path/to/file.json"</span>)</span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Concatenate into a single DataFrame</span></span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a>combined_df <span class="op">=</span> pl.concat([df1, df2, df3], how<span class="op">=</span><span class="st">"vertical"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 
 
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
