@@ -1,6 +1,6 @@
 project:
   type: book
-  output-dir: ../_site/intro_to_polars
+  output-dir: docs
 
 output:
   html:
@@ -27,8 +27,10 @@ book:
     - chapter1.qmd
     - chapter2.qmd
     - chapter3.qmd
+    - chapter4.qmd
   appendices: 
     - appendix1.qmd
+    - appendix2.qmd
   navbar:
     background: primary
 
@@ -36,9 +38,9 @@ format:
   html:
     theme: cosmos
     css: styles.css
-  pdf:
     toc: true
     toc-location: right
     toc-depth: 2
-    theme: cosmos
-    css: styles.css
+  pdf:
+    toc: true
+    toc-depth: 2
