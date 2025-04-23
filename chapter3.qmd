@@ -169,6 +169,11 @@ For more information on reading in external data see @sec-appendix-b
 
 The `glimpse` function allows you to preview your dataframe. By providing the number of rows and columns. The column names and datatypes and the first few values of each column. it can be usefull when tring to gain an intial perspective of the dataframe without requiring in depth overview
 
+```python
+dataframe.glimpse(max_items_per_column)
+```
+You can leave the parameters blank which I would reccomend in most use cases but you can pass it a number to set the max number of items to return for each column.
+
 ```{python}
 # Reads data from a parquet file into a Polars DataFrame
 # Parquet is a columnar storage file format optimized for analytics
@@ -190,7 +195,7 @@ finance_df.describe()
 
 
 ```{python}
-finance_df.sample(10)
+finance_df.sample(3)
 ```
 
 ### slice
@@ -202,3 +207,5 @@ dataframe.slice(offset, length)
 ```{python}
 finance_df.slice(500, 6)
 ```
+
+
