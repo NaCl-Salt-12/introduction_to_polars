@@ -252,7 +252,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>Creating a Series is straightforward with the following syntax:</p>
 <p><code>pl.Series(name, values_list)</code></p>
 <p>Where “name” is the label for your Series and “values_list” contains the data. Here’s a simple example:</p>
-<div id="3b75b675" class="cell" data-execution_count="1">
+<div id="15c4770c" class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> polars <span class="im">as</span> pl</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>s <span class="op">=</span> pl.Series(<span class="st">"example"</span>, [<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">4</span>, <span class="dv">5</span>])</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>s</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -296,7 +296,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 <p>When you create a series Polars will infer the data type for the values you provide. So in the above example I gave it [1, 2, 3, 4, 5] and it set the datatype to Int64 if instead gave it [1, 2, 3, 4.0, 5] it would asume it is Float64.</p>
-<div id="dde6a540" class="cell" data-execution_count="2">
+<div id="c51d12ed" class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>s2 <span class="op">=</span> pl.Series(<span class="st">"payment"</span>, [<span class="fl">132.50</span>, <span class="dv">120</span>, <span class="dv">116</span>, <span class="fl">98.75</span> ,<span class="dv">42</span>])</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>s2</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="2">
@@ -338,7 +338,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 </div>
-<div id="457367c8" class="cell" data-execution_count="3">
+<div id="914f9153" class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>s3 <span class="op">=</span> pl.Series(<span class="st">"mixed"</span>, [<span class="dv">1</span>, <span class="st">"text"</span>, <span class="va">True</span>, <span class="fl">3.14</span>], strict<span class="op">=</span><span class="va">False</span>)</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="co"># series.dytpe outputs a the data type of the series</span></span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Mixed series type: </span><span class="sc">{</span>s3<span class="sc">.</span>dtype<span class="sc">}</span><span class="ss">"</span>)</span>
@@ -383,7 +383,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 <p>You can set the data type of the series as well by using the <code>dtype</code> parameter. A example use case is when storing a id number the id number should be stored as a string not a int due to the fact that we we do not want to perform mathmatical operations on the identification number therefore it is best stored as a string.</p>
-<div id="f6ea0655" class="cell" data-execution_count="4">
+<div id="3fe3ba3f" class="cell" data-execution_count="4">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># strict=False allows automatic conversion from different data types</span></span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>s3 <span class="op">=</span> pl.Series(<span class="st">"id number"</span>, [<span class="dv">143823</span>, <span class="dv">194203</span>, <span class="dv">553420</span>, <span class="dv">234325</span>, <span class="dv">236532</span>], dtype<span class="op">=</span>pl.Utf8, strict<span class="op">=</span><span class="va">False</span>)</span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>s3</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -443,7 +443,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li>By importing existing tabular data from CSVs, JSON, SQL, Parquet files, etc.</li>
 </ol>
 <p>In real-world environments, you’ll typically work with preexisting data, though understanding various creation methods is valuable. We’ll cover data import techniques later, but for now, here’s an example of a DataFrame created from a dictionary of lists:</p>
-<div id="70200401" class="cell" data-execution_count="5">
+<div id="5d456f81" class="cell" data-execution_count="5">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Create a DataFrame from a dictionary of lists</span></span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> pl.DataFrame({</span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">"name"</span>: [<span class="st">"Alice"</span>, <span class="st">"Bob"</span>, <span class="st">"Charlie"</span>, <span class="st">"David"</span>],</span>
@@ -509,14 +509,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 <p>every data frame has a shape. the shape is the number of rows and columns in a dataframe <code>shape(rows,columns)</code></p>
 <p>the shape for the above dataframe is:</p>
-<div id="264313b0" class="cell" data-execution_count="6">
+<div id="30c1b16c" class="cell" data-execution_count="6">
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(df.shape)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>(4, 4)</code></pre>
 </div>
 </div>
 <p>you can view the schema of any dataframe with the following command</p>
-<div id="ea38ad0a" class="cell" data-execution_count="7">
+<div id="5fb4b394" class="cell" data-execution_count="7">
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(df.schema)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Schema({'name': String, 'age': Int64, 'city': String, 'salary': Int64})</code></pre>
@@ -540,7 +540,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>the <code>head</code> functions allows you to view the first x rows of the dataframe. By default the number of rows it shows is 5, though you can specify the number of rows to view.</p>
 <div class="sourceCode" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>dataframe.head(n)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Where n is the number of rows to return if you give it a negative number it will turn all rows except the last n rows.</p>
-<div id="3d8b707b" class="cell" data-execution_count="8">
+<div id="1f596775" class="cell" data-execution_count="8">
 <div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Create NumPy arrays for sandwich data</span></span>
@@ -607,13 +607,26 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 </div>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Tip
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Both head and tail are useful for quick data exploration without loading the entire dataset.</p>
+</div>
+</div>
 </section>
 <section id="tail" class="level3" data-number="3.4.2">
 <h3 data-number="3.4.2" class="anchored" data-anchor-id="tail"><span class="header-section-number">3.4.2</span> tail</h3>
 <p>The <code>tail</code> function is essentially the inverse of head. It allows you to view the last n rows of the dataframe. The default for tail is also five rows.</p>
 <div class="sourceCode" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>dataframe.tail(n)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Where n is the number of rows to return if you give it a negative number it will turn all rows except the first n rows.</p>
-<div id="de246b89" class="cell" data-execution_count="9">
+<div id="191f9f5c" class="cell" data-execution_count="9">
 <div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Import data from the sales.csv file into a Polars DataFrame</span></span>
 <span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>sales_df <span class="op">=</span> pl.read_csv(<span class="st">"./data/sales.csv"</span>)</span>
 <span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -728,6 +741,486 @@ Note
 </div>
 <div class="callout-body-container callout-body">
 <p>For more information on reading in external data see <a href="appendix2.html" class="quarto-xref"><span>Appendix B</span></a></p>
+</div>
+</div>
+</section>
+<section id="glimpse" class="level3" data-number="3.4.3">
+<h3 data-number="3.4.3" class="anchored" data-anchor-id="glimpse"><span class="header-section-number">3.4.3</span> glimpse</h3>
+<p>The <code>glimpse</code> function allows you to preview your dataframe. By providing the number of rows and columns. The column names and datatypes and the first few values of each column. it can be usefull when tring to gain an intial perspective of the dataframe without requiring in depth overview</p>
+<div id="13dc5268" class="cell" data-execution_count="10">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Reads data from a parquet file into a Polars DataFrame</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Parquet is a columnar storage file format optimized for analytics</span></span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>finance_df <span class="op">=</span> pl.read_parquet(<span class="st">"./data/finance.parquet"</span>)</span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Display a summary overview of the DataFrame</span></span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>finance_df.glimpse()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Rows: 1310
+Columns: 10
+$ date           &lt;datetime[ns]&gt; 2024-04-15 00:00:00, 2024-04-16 00:00:00, 2024-04-17 00:00:00, 2024-04-18 00:00:00, 2024-04-19 00:00:00, 2024-04-22 00:00:00, 2024-04-23 00:00:00, 2024-04-24 00:00:00, 2024-04-25 00:00:00, 2024-04-26 00:00:00
+$ ticker                  &lt;str&gt; 'AAPL', 'AAPL', 'AAPL', 'AAPL', 'AAPL', 'AAPL', 'AAPL', 'AAPL', 'AAPL', 'AAPL'
+$ open                    &lt;f64&gt; 215.0, 215.27, 216.07, 220.02, 217.83, 216.56, 215.03, 212.29, 203.8, 206.87
+$ high                    &lt;f64&gt; 215.49, 216.26, 219.1, 222.15, 219.19, 218.67, 216.66, 213.96, 205.52, 209.23
+$ low                     &lt;f64&gt; 214.22, 214.32, 215.91, 218.75, 216.63, 215.46, 214.58, 212.31, 202.66, 205.24
+$ close                   &lt;f64&gt; 215.01, 216.14, 217.16, 220.56, 218.74, 217.13, 215.38, 212.5, 204.28, 207.29
+$ volume                  &lt;i64&gt; 1930612, 2166356, 2108441, 2426330, 2922733, 2282139, 2347011, 2170140, 2601900, 2331680
+$ pe_ratio                &lt;f64&gt; 24.63, 11.55, 37.52, 31.55, 31.33, 12.62, 23.63, 14.16, 13.2, 16.15
+$ dividend_yield          &lt;f64&gt; 0.0255, 0.0005, 0.0002, 0.0161, 0.006, 0.0152, 0.0165, 0.0001, 0.0255, 0.0114
+$ market_cap              &lt;f64&gt; 2664107971.0, 5452883768.0, 6751310057.0, 4539928581.0, 5699638189.0, 6553501976.0, 4761567781.0, 2762079236.0, 5364612742.0, 6232280976.0
+</code></pre>
+</div>
+</div>
+</section>
+<section id="describe" class="level3" data-number="3.4.4">
+<h3 data-number="3.4.4" class="anchored" data-anchor-id="describe"><span class="header-section-number">3.4.4</span> describe</h3>
+<div id="f42e9842" class="cell" data-execution_count="11">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>finance_df.describe()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="11">
+<div><style>
+.dataframe > thead > tr,
+.dataframe > tbody > tr {
+  text-align: right;
+  white-space: pre-wrap;
+}
+</style>
+<small>shape: (9, 11)</small>
+<table class="dataframe caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th">statistic</th>
+<th data-quarto-table-cell-role="th">date</th>
+<th data-quarto-table-cell-role="th">ticker</th>
+<th data-quarto-table-cell-role="th">open</th>
+<th data-quarto-table-cell-role="th">high</th>
+<th data-quarto-table-cell-role="th">low</th>
+<th data-quarto-table-cell-role="th">close</th>
+<th data-quarto-table-cell-role="th">volume</th>
+<th data-quarto-table-cell-role="th">pe_ratio</th>
+<th data-quarto-table-cell-role="th">dividend_yield</th>
+<th data-quarto-table-cell-role="th">market_cap</th>
+</tr>
+<tr class="even">
+<th>str</th>
+<th>str</th>
+<th>str</th>
+<th>f64</th>
+<th>f64</th>
+<th>f64</th>
+<th>f64</th>
+<th>f64</th>
+<th>f64</th>
+<th>f64</th>
+<th>f64</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>"count"</td>
+<td>"1310"</td>
+<td>"1310"</td>
+<td>1310.0</td>
+<td>1310.0</td>
+<td>1310.0</td>
+<td>1310.0</td>
+<td>1310.0</td>
+<td>1310.0</td>
+<td>1310.0</td>
+<td>1310.0</td>
+</tr>
+<tr class="even">
+<td>"null_count"</td>
+<td>"0"</td>
+<td>"0"</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>0.0</td>
+</tr>
+<tr class="odd">
+<td>"mean"</td>
+<td>"2024-10-13 21:42:35.725190"</td>
+<td>null</td>
+<td>309.888687</td>
+<td>312.208565</td>
+<td>309.056229</td>
+<td>310.665</td>
+<td>3.5360e6</td>
+<td>24.924183</td>
+<td>0.014968</td>
+<td>1.3308e10</td>
+</tr>
+<tr class="even">
+<td>"std"</td>
+<td>null</td>
+<td>null</td>
+<td>183.806709</td>
+<td>185.216272</td>
+<td>183.266391</td>
+<td>184.279542</td>
+<td>1.9400e6</td>
+<td>8.695993</td>
+<td>0.008674</td>
+<td>1.5527e10</td>
+</tr>
+<tr class="odd">
+<td>"min"</td>
+<td>"2024-04-15 00:00:00"</td>
+<td>"AAPL"</td>
+<td>125.74</td>
+<td>127.01</td>
+<td>125.19</td>
+<td>125.9</td>
+<td>462641.0</td>
+<td>10.03</td>
+<td>0.0</td>
+<td>1.5396e9</td>
+</tr>
+<tr class="even">
+<td>"25%"</td>
+<td>"2024-07-15 00:00:00"</td>
+<td>null</td>
+<td>200.6</td>
+<td>201.72</td>
+<td>199.93</td>
+<td>200.91</td>
+<td>1.889358e6</td>
+<td>17.27</td>
+<td>0.0075</td>
+<td>3.8667e9</td>
+</tr>
+<tr class="odd">
+<td>"50%"</td>
+<td>"2024-10-15 00:00:00"</td>
+<td>null</td>
+<td>240.87</td>
+<td>242.6</td>
+<td>240.33</td>
+<td>241.9</td>
+<td>2.994889e6</td>
+<td>25.02</td>
+<td>0.0152</td>
+<td>5.9477e9</td>
+</tr>
+<tr class="even">
+<td>"75%"</td>
+<td>"2025-01-14 00:00:00"</td>
+<td>null</td>
+<td>315.93</td>
+<td>318.79</td>
+<td>316.15</td>
+<td>316.79</td>
+<td>4.9854e6</td>
+<td>32.54</td>
+<td>0.0223</td>
+<td>1.5756e10</td>
+</tr>
+<tr class="odd">
+<td>"max"</td>
+<td>"2025-04-15 00:00:00"</td>
+<td>"MSFT"</td>
+<td>792.59</td>
+<td>801.45</td>
+<td>790.79</td>
+<td>796.05</td>
+<td>1.0040359e7</td>
+<td>39.99</td>
+<td>0.03</td>
+<td>7.0804e10</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+</section>
+<section id="sample" class="level3" data-number="3.4.5">
+<h3 data-number="3.4.5" class="anchored" data-anchor-id="sample"><span class="header-section-number">3.4.5</span> sample</h3>
+<div id="d72485a7" class="cell" data-execution_count="12">
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>finance_df.sample(<span class="dv">10</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="12">
+<div><style>
+.dataframe > thead > tr,
+.dataframe > tbody > tr {
+  text-align: right;
+  white-space: pre-wrap;
+}
+</style>
+<small>shape: (10, 10)</small>
+<table class="dataframe caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th">date</th>
+<th data-quarto-table-cell-role="th">ticker</th>
+<th data-quarto-table-cell-role="th">open</th>
+<th data-quarto-table-cell-role="th">high</th>
+<th data-quarto-table-cell-role="th">low</th>
+<th data-quarto-table-cell-role="th">close</th>
+<th data-quarto-table-cell-role="th">volume</th>
+<th data-quarto-table-cell-role="th">pe_ratio</th>
+<th data-quarto-table-cell-role="th">dividend_yield</th>
+<th data-quarto-table-cell-role="th">market_cap</th>
+</tr>
+<tr class="even">
+<th>datetime[ns]</th>
+<th>str</th>
+<th>f64</th>
+<th>f64</th>
+<th>f64</th>
+<th>f64</th>
+<th>i64</th>
+<th>f64</th>
+<th>f64</th>
+<th>f64</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>2024-06-28 00:00:00</td>
+<td>"META"</td>
+<td>575.9</td>
+<td>579.54</td>
+<td>571.04</td>
+<td>576.33</td>
+<td>6707185</td>
+<td>21.74</td>
+<td>0.0253</td>
+<td>1.8221e10</td>
+</tr>
+<tr class="even">
+<td>2024-05-28 00:00:00</td>
+<td>"AAPL"</td>
+<td>197.37</td>
+<td>198.47</td>
+<td>196.84</td>
+<td>197.68</td>
+<td>2090779</td>
+<td>33.99</td>
+<td>0.0105</td>
+<td>4.0341e9</td>
+</tr>
+<tr class="odd">
+<td>2025-02-10 00:00:00</td>
+<td>"META"</td>
+<td>734.13</td>
+<td>738.78</td>
+<td>735.58</td>
+<td>736.07</td>
+<td>6007568</td>
+<td>28.67</td>
+<td>0.0176</td>
+<td>3.6327e10</td>
+</tr>
+<tr class="even">
+<td>2025-01-02 00:00:00</td>
+<td>"GOOG"</td>
+<td>341.6</td>
+<td>342.89</td>
+<td>341.67</td>
+<td>342.31</td>
+<td>4732308</td>
+<td>10.32</td>
+<td>0.0027</td>
+<td>1.6689e10</td>
+</tr>
+<tr class="odd">
+<td>2025-01-01 00:00:00</td>
+<td>"MSFT"</td>
+<td>209.11</td>
+<td>210.82</td>
+<td>208.52</td>
+<td>209.28</td>
+<td>1764780</td>
+<td>30.14</td>
+<td>0.0081</td>
+<td>1.8408e9</td>
+</tr>
+<tr class="even">
+<td>2024-06-26 00:00:00</td>
+<td>"MSFT"</td>
+<td>187.69</td>
+<td>189.04</td>
+<td>186.32</td>
+<td>187.7</td>
+<td>1988123</td>
+<td>25.45</td>
+<td>0.0048</td>
+<td>1.6575e9</td>
+</tr>
+<tr class="odd">
+<td>2024-09-25 00:00:00</td>
+<td>"GOOG"</td>
+<td>256.07</td>
+<td>257.17</td>
+<td>255.15</td>
+<td>256.39</td>
+<td>5219884</td>
+<td>11.9</td>
+<td>0.0183</td>
+<td>1.7549e10</td>
+</tr>
+<tr class="even">
+<td>2024-08-05 00:00:00</td>
+<td>"AAPL"</td>
+<td>215.53</td>
+<td>218.05</td>
+<td>215.34</td>
+<td>216.47</td>
+<td>2186172</td>
+<td>36.04</td>
+<td>0.0074</td>
+<td>2.9991e9</td>
+</tr>
+<tr class="odd">
+<td>2024-09-04 00:00:00</td>
+<td>"AAPL"</td>
+<td>217.95</td>
+<td>218.33</td>
+<td>216.86</td>
+<td>218.11</td>
+<td>1026716</td>
+<td>10.55</td>
+<td>0.0145</td>
+<td>3.2655e9</td>
+</tr>
+<tr class="even">
+<td>2025-02-12 00:00:00</td>
+<td>"AMZN"</td>
+<td>179.06</td>
+<td>180.17</td>
+<td>178.28</td>
+<td>179.26</td>
+<td>2941466</td>
+<td>11.03</td>
+<td>0.0051</td>
+<td>5.5091e9</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+</section>
+<section id="slice" class="level3" data-number="3.4.6">
+<h3 data-number="3.4.6" class="anchored" data-anchor-id="slice"><span class="header-section-number">3.4.6</span> slice</h3>
+<div class="sourceCode" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>dataframe.<span class="bu">slice</span>(offset, length)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="082df020" class="cell" data-execution_count="13">
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>finance_df.<span class="bu">slice</span>(<span class="dv">500</span>, <span class="dv">6</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="13">
+<div><style>
+.dataframe > thead > tr,
+.dataframe > tbody > tr {
+  text-align: right;
+  white-space: pre-wrap;
+}
+</style>
+<small>shape: (6, 10)</small>
+<table class="dataframe caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th">date</th>
+<th data-quarto-table-cell-role="th">ticker</th>
+<th data-quarto-table-cell-role="th">open</th>
+<th data-quarto-table-cell-role="th">high</th>
+<th data-quarto-table-cell-role="th">low</th>
+<th data-quarto-table-cell-role="th">close</th>
+<th data-quarto-table-cell-role="th">volume</th>
+<th data-quarto-table-cell-role="th">pe_ratio</th>
+<th data-quarto-table-cell-role="th">dividend_yield</th>
+<th data-quarto-table-cell-role="th">market_cap</th>
+</tr>
+<tr class="even">
+<th>datetime[ns]</th>
+<th>str</th>
+<th>f64</th>
+<th>f64</th>
+<th>f64</th>
+<th>f64</th>
+<th>i64</th>
+<th>f64</th>
+<th>f64</th>
+<th>f64</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>2025-03-13 00:00:00</td>
+<td>"MSFT"</td>
+<td>242.34</td>
+<td>244.05</td>
+<td>242.99</td>
+<td>243.12</td>
+<td>1404084</td>
+<td>27.98</td>
+<td>0.0271</td>
+<td>3.2495e9</td>
+</tr>
+<tr class="even">
+<td>2025-03-14 00:00:00</td>
+<td>"MSFT"</td>
+<td>243.49</td>
+<td>244.84</td>
+<td>243.64</td>
+<td>243.76</td>
+<td>462641</td>
+<td>34.61</td>
+<td>0.0248</td>
+<td>4.0134e9</td>
+</tr>
+<tr class="odd">
+<td>2025-03-17 00:00:00</td>
+<td>"MSFT"</td>
+<td>247.86</td>
+<td>250.29</td>
+<td>246.92</td>
+<td>248.3</td>
+<td>1637110</td>
+<td>34.78</td>
+<td>0.0189</td>
+<td>4.8262e9</td>
+</tr>
+<tr class="even">
+<td>2025-03-18 00:00:00</td>
+<td>"MSFT"</td>
+<td>242.34</td>
+<td>244.07</td>
+<td>240.73</td>
+<td>243.06</td>
+<td>1112130</td>
+<td>26.23</td>
+<td>0.0182</td>
+<td>2.6502e9</td>
+</tr>
+<tr class="odd">
+<td>2025-03-19 00:00:00</td>
+<td>"MSFT"</td>
+<td>243.08</td>
+<td>245.24</td>
+<td>243.39</td>
+<td>243.84</td>
+<td>1346630</td>
+<td>11.79</td>
+<td>0.0181</td>
+<td>4.6632e9</td>
+</tr>
+<tr class="even">
+<td>2025-03-20 00:00:00</td>
+<td>"MSFT"</td>
+<td>243.86</td>
+<td>245.05</td>
+<td>242.87</td>
+<td>244.5</td>
+<td>1202714</td>
+<td>12.4</td>
+<td>0.0133</td>
+<td>2.4545e9</td>
+</tr>
+</tbody>
+</table>
+</div>
 </div>
 </div>
 
