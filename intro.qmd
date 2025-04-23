@@ -10,4 +10,4 @@ Polars is a modern data manipulation library avalible for Python, R, NodeJs and 
 
 ## What you will learn
 
-
+## How this book is organized
