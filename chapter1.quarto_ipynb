@@ -1,0 +1,370 @@
+{
+  "cells": [
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "# Dataframes and Series \n",
+        "\n",
+        "## Data types\n",
+        "\n",
+        "Polars allows you to store data in a variety of formats called data types. These data types fall generally into the following categories:\n",
+        "\n",
+        "- **Numeric**: Signed integers, unsigned integers, floating point numbers, and decimals\n",
+        "- **Nested**: Lists, structs, and arrays for handling complex data\n",
+        "- **Temporal**: Dates, datetimes, and times for working with time-based data\n",
+        "- **Miscellaneous**: Strings, binary data, Booleans, categoricals, enums, and objects\n",
+        "\n",
+        "The most common data types you will be working with are generally: Strings, signed and unsigned integers, floating point numbers or floats, decimals, dates or datetimes and booleans. For more information on each of these data types see @sec-appendix-a.\n",
+        "\n",
+        "## Series\n",
+        "\n",
+        "The two most common data structures in Polars are DataFrames and Series. Series are one-dimensional data structures where\n",
+        "\n",
+        "Creating a Series is straightforward with the following syntax:\n",
+        "\n",
+        "`pl.Series(name, values_list)`\n",
+        "\n",
+        "Where \"name\" is the label for your Series and \"values_list\" contains the data. Here's a simple example:"
+      ],
+      "id": "b4f48d1a"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "import polars as pl\n",
+        "s = pl.Series(\"example\", [1, 2, 3, 4, 5])\n",
+        "s"
+      ],
+      "id": "9289f522",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "When you create a series Polars will infer the data type for the values you provide. So in the above example I gave it [1, 2, 3, 4, 5] and it set the datatype to Int64 if instead gave it [1, 2, 3, 4.0, 5] it would asume it is Float64.\n"
+      ],
+      "id": "e8d418c1"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "s2 = pl.Series(\"payment\", [132.50, 120, 116, 98.75 ,42])\n",
+        "s2"
+      ],
+      "id": "40fd2d2b",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "s3 = pl.Series(\"mixed\", [1, \"text\", True, 3.14], strict=False)\n",
+        "# series.dytpe outputs a the data type of the series\n",
+        "print(f\"Mixed series type: {s3.dtype}\")\n",
+        "s3"
+      ],
+      "id": "051eaf36",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "You can set the data type of the series as well by using the `dtype` parameter. A example use case is when storing a id number the id number should be stored as a string not a int due to the fact that we we do not want to perform mathmatical operations on the identification number therefore it is best stored as a string.\n"
+      ],
+      "id": "d8c839d7"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "# strict=False allows automatic conversion from different data types\n",
+        "s3 = pl.Series(\"id number\", [143823, 194203, 553420, 234325, 236532], dtype=pl.Utf8, strict=False)\n",
+        "s3"
+      ],
+      "id": "577ecf04",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "## Dataframes\n",
+        "\n",
+        "DataFrames are tabular data structures (rows and columns) composed of multiple Series, with each column representing a single Series. The design of a dataframe is called schema. A schema is a mapping of column to the data types. \n",
+        "\n",
+        "Dataframes are the workhorses of data analysis and what you’ll use most frequently.\n",
+        "\n",
+        "With DataFrames, you can write powerful queries to filter, transform, aggregate, and reshape your data efficiently.\n",
+        "\n",
+        "DataFrames can be created in several ways:\n",
+        "\n",
+        "1. From a dictionary of sequences (lists, arrays)\n",
+        "2. With explicit schema specification \n",
+        "3. From a sequence of (name, dtype) pairs\n",
+        "4. From NumPy arrays\n",
+        "5. From a list of lists (row-oriented data)\n",
+        "6. By converting pandas DataFrames\n",
+        "7. By importing existing tabular data from CSVs, JSON, SQL, Parquet files, etc.\n",
+        "\n",
+        "In real-world environments, you’ll typically work with preexisting data, though understanding various creation methods is valuable. We’ll cover data import techniques later, but for now, here’s an example of a DataFrame created from a dictionary of lists:"
+      ],
+      "id": "73e34a54"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "# Create a DataFrame from a dictionary of lists\n",
+        "df = pl.DataFrame({\n",
+        "    \"name\": [\"Alice\", \"Bob\", \"Charlie\", \"David\"],\n",
+        "    \"age\": [25, 30, 35, 40],\n",
+        "    \"city\": [\"New York\", \"Boston\", \"Chicago\", \"Seattle\"],\n",
+        "    \"salary\": [75000, 85000, 90000, 95000]\n",
+        "})\n",
+        "\n",
+        "df"
+      ],
+      "id": "6c9d91e3",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "every data frame has a shape. the shape is the number of rows and columns in a dataframe \n",
+        "`shape(rows,columns)`\n",
+        "\n",
+        "the shape for the above dataframe is:"
+      ],
+      "id": "6c94cd50"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "print(df.shape)"
+      ],
+      "id": "987365c7",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "you can view the schema of any dataframe with the following command "
+      ],
+      "id": "56667a76"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "print(df.schema)"
+      ],
+      "id": "65024c40",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "We see here that the schema is returned as a dictionary. In the above example the column name has the string datatype. Though you can view the data type already when displaying the dataframe.\n",
+        "\n",
+        "## Inspecting Dataframes\n",
+        "\n",
+        "In polars there are a varity of ways to inspect a dataframe, all of which have different use cases. The ones that we will be covering right now are:\n",
+        "\n",
+        "- head \n",
+        "- tail \n",
+        "- glimpse\n",
+        "- sample\n",
+        "- describe\n",
+        "- slice\n",
+        "\n",
+        "### head \n",
+        "\n",
+        "the `head` functions allows you to view the first x rows of the dataframe. By default the number of rows it shows is 5, though you can specify the number of rows to view.\n",
+        "\n",
+        "```python\n",
+        "dataframe.head(n)\n",
+        "```\n",
+        "Where n is the number of rows to return if you give it a negative number it will turn all rows except the last n rows."
+      ],
+      "id": "81bd98ab"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "import numpy as np\n",
+        "\n",
+        "# Create NumPy arrays for sandwich data\n",
+        "sandwich_names = np.array(['BLT', 'Club', 'Tuna', 'Ham & Cheese', 'Veggie'])\n",
+        "prices = np.array([8.99, 10.50, 7.50, 6.99, 6.50])\n",
+        "calories = np.array([550, 720, 480, 520, 320])\n",
+        "vegetarian = np.array([False, False, False, False, True])\n",
+        "\n",
+        "# Create DataFrame from NumPy arrays\n",
+        "sandwich_df = pl.DataFrame({\n",
+        "    \"sandwich\": sandwich_names,\n",
+        "    \"price\": prices,\n",
+        "    \"calories\": calories,\n",
+        "    \"vegetarian\": vegetarian\n",
+        "})\n",
+        "\n",
+        "\n",
+        "sandwich_df.head(3)"
+      ],
+      "id": "0fd56336",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "::: {.callout-tip}\n",
+        "Both head and tail are useful for quick data exploration without loading the entire dataset.\n",
+        ":::\n",
+        "\n",
+        "### tail\n",
+        "\n",
+        "The `tail` function is essentially the inverse of head. It allows you to view the last n rows of the dataframe. The default for tail is also five rows.\n",
+        "\n",
+        "```python\n",
+        "dataframe.tail(n)\n",
+        "```\n",
+        "Where n is the number of rows to return if you give it a negative number it will turn all rows except the first n rows.\n"
+      ],
+      "id": "c67652dd"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "# Import data from the sales.csv file into a Polars DataFrame\n",
+        "sales_df = pl.read_csv(\"./data/sales.csv\")\n",
+        "\n",
+        "# Display the last 6 rows of the sales DataFrame\n",
+        "sales_df.tail(6)"
+      ],
+      "id": "a8a93fa2",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "::: {.callout-note}\n",
+        "For more information on reading in external data see @sec-appendix-b\n",
+        ":::\n",
+        "\n",
+        "### glimpse\n",
+        "\n",
+        "The `glimpse` function allows you to preview your dataframe. By providing the number of rows and columns. The column names and datatypes and the first few values of each column. it can be usefull when tring to gain an intial perspective of the dataframe without requiring in depth overview\n",
+        "\n",
+        "```python\n",
+        "dataframe.glimpse(max_items_per_column)\n",
+        "```\n",
+        "You can leave the parameters blank which I would reccomend in most use cases but you can pass it a number to set the max number of items to return for each column."
+      ],
+      "id": "b7160ce2"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "# Reads data from a parquet file into a Polars DataFrame\n",
+        "# Parquet is a columnar storage file format optimized for analytics\n",
+        "finance_df = pl.read_parquet(\"./data/finance.parquet\")\n",
+        "\n",
+        "# Display a summary overview of the DataFrame\n",
+        "finance_df.glimpse()"
+      ],
+      "id": "dfe1fc38",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "### describe\n"
+      ],
+      "id": "aeaadb02"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "finance_df.describe()"
+      ],
+      "id": "eadb9421",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "### sample\n"
+      ],
+      "id": "3ba4614d"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "finance_df.sample(3)"
+      ],
+      "id": "4644345a",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "### slice\n",
+        "\n",
+        "```python\n",
+        "dataframe.slice(offset, length)\n",
+        "```"
+      ],
+      "id": "69cd96f8"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "finance_df.slice(500, 6)"
+      ],
+      "id": "32c53a38",
+      "execution_count": null,
+      "outputs": []
+    }
+  ],
+  "metadata": {
+    "kernelspec": {
+      "name": "python3",
+      "language": "python",
+      "display_name": "Python 3 (ipykernel)",
+      "path": "/home/nathaniel/.local/share/jupyter/kernels/python3"
+    }
+  },
+  "nbformat": 4,
+  "nbformat_minor": 5
+}

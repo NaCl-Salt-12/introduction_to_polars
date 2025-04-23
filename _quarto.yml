@@ -24,16 +24,28 @@ book:
   date: "2025-04-20"
   chapters:
     - index.qmd
+    - about.qmd
+    - intro.qmd
+    - installation.qmd
     - chapter1.qmd
     - chapter2.qmd
-    - chapter3.qmd
-    - chapter4.qmd
   appendices: 
     - appendix1.qmd
     - appendix2.qmd
   navbar:
     background: primary
 
+  page-footer: 
+    border: true
+    left: "Nathaniel Clark 2025©"
+    right: 
+      - icon: linkedin
+        href: https://www.linkedin.com/in/nathaniel-e-clark/
+      - icon: github
+        href: https://github.com/NaCl-Salt-12
+      - icon: globe
+        href: https://nacl-salt-12.github.io/dataclark/
+ 
 format:
   html:
     theme: cosmos
