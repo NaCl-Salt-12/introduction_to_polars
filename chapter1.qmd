@@ -13,7 +13,7 @@ The most common data types you will be working with are generally: Strings, sign
 
 ## Series
 
-The two most common data structures in Polars are DataFrames and Series. Series are one-dimensional data structures where
+The two most common data structures in Polars are DataFrames and Series. Series are one-dimensional data structures where all elements share the same datatype. Think of a Series as a single column in a table - it’s essentially a named array of data.
 
 Creating a Series is straightforward with the following syntax:
 
