@@ -139,6 +139,10 @@ sandwich_df = pl.DataFrame({
 sandwich_df.head(3)
 ```
 
+::: {.callout-tip}
+Both head and tail are useful for quick data exploration without loading the entire dataset.
+:::
+
 ### tail
 
 The `tail` function is essentially the inverse of head. It allows you to view the last n rows of the dataframe. The default for tail is also five rows.
@@ -160,3 +164,41 @@ sales_df.tail(6)
 ::: {.callout-note}
 For more information on reading in external data see @sec-appendix-b
 :::
+
+### glimpse
+
+The `glimpse` function allows you to preview your dataframe. By providing the number of rows and columns. The column names and datatypes and the first few values of each column. it can be usefull when tring to gain an intial perspective of the dataframe without requiring in depth overview
+
+```{python}
+# Reads data from a parquet file into a Polars DataFrame
+# Parquet is a columnar storage file format optimized for analytics
+finance_df = pl.read_parquet("./data/finance.parquet")
+
+# Display a summary overview of the DataFrame
+finance_df.glimpse()
+```
+
+### describe
+
+
+```{python}
+finance_df.describe()
+```
+
+
+### sample
+
+
+```{python}
+finance_df.sample(10)
+```
+
+### slice
+
+```python
+dataframe.slice(offset, length)
+```
+
+```{python}
+finance_df.slice(500, 6)
+```
