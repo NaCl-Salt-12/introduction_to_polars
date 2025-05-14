@@ -1,0 +1,1 @@
+Sitemap: https://NaCl-Salt-12.github.io/introduction_to_polars/sitemap.xml
