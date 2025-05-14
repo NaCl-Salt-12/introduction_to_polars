@@ -1,4 +1,4 @@
-# Common Data Types {#sec-appendix-a}
+## Common Data Types {#sec-appendix-a}
 | Data Type | Polars Type | Description | Example |
 |-----------|-------------|-------------|---------|
 | Strings | `pl.Utf8` | Text data | `"hello"` |

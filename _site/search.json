@@ -1,0 +1,263 @@
+[
+  {
+    "objectID": "chapter1.html",
+    "href": "chapter1.html",
+    "title": "Dataframes and Series",
+    "section": "",
+    "text": "Polars allows you to store data in a variety of formats called data types. These data types fall generally into the following categories:\n\nNumeric: Signed integers, unsigned integers, floating point numbers, and decimals\nNested: Lists, structs, and arrays for handling complex data\nTemporal: Dates, datetimes, and times for working with time-based data\nMiscellaneous: Strings, binary data, Booleans, categoricals, enums, and objects\n\nThe most common data types you will be working with are generally: Strings, signed and unsigned integers, floating point numbers or floats, decimals, dates or datetimes and booleans. For more information on each of these data types see Appendix A.",
+    "crumbs": [
+      "Getting Started",
+      "Dataframes and Series"
+    ]
+  },
+  {
+    "objectID": "chapter1.html#data-types",
+    "href": "chapter1.html#data-types",
+    "title": "Dataframes and Series",
+    "section": "",
+    "text": "Polars allows you to store data in a variety of formats called data types. These data types fall generally into the following categories:\n\nNumeric: Signed integers, unsigned integers, floating point numbers, and decimals\nNested: Lists, structs, and arrays for handling complex data\nTemporal: Dates, datetimes, and times for working with time-based data\nMiscellaneous: Strings, binary data, Booleans, categoricals, enums, and objects\n\nThe most common data types you will be working with are generally: Strings, signed and unsigned integers, floating point numbers or floats, decimals, dates or datetimes and booleans. For more information on each of these data types see Appendix A.",
+    "crumbs": [
+      "Getting Started",
+      "Dataframes and Series"
+    ]
+  },
+  {
+    "objectID": "chapter1.html#series",
+    "href": "chapter1.html#series",
+    "title": "Dataframes and Series",
+    "section": "Series",
+    "text": "Series\nThe two most common data structures in Polars are DataFrames and Series. Series are one-dimensional data structures where all elements share the same datatype. Think of a Series as a single column in a table - it’s essentially a named array of data. If a DataFrame is like a spreadsheet, a Series is like a single column in Excel that you’ve given a name.\nCreating a Series is straightforward with the following syntax:\npl.Series(name, values_list)\nWhere “name” is the label for your Series and “values_list” contains the data. Here’s a simple example:\n\nimport polars as pl\ns = pl.Series(\"example\", [1, 2, 3, 4, 5])\ns\n\n\nshape: (5,)\n\n\n\nexample\n\n\ni64\n\n\n\n\n1\n\n\n2\n\n\n3\n\n\n4\n\n\n5\n\n\n\n\n\n\nWhen you create a series Polars will infer the data type for the values you provide. So in the above example I gave it [1, 2, 3, 4, 5] and it set the datatype to Int64 if instead gave it [1, 2, 3, 4.0, 5] it would asume it is Float64.\n\n# When you create a series Polars will infer the data type\n# Much like how my roomate \"infers\" that 3 AM is the perfect time to get a snack\ns2 = pl.Series(\"payment\", [132.50, 120, 116, 98.75, 42])\ns2\n\n\nshape: (5,)\n\n\n\npayment\n\n\nf64\n\n\n\n\n132.5\n\n\n120.0\n\n\n116.0\n\n\n98.75\n\n\n42.0\n\n\n\n\n\n\n\ns3 = pl.Series(\"mixed\", [1, \"text\", True, 3.14], strict=False)\n# series.dytpe outputs a the data type of the series\nprint(f\"Mixed series type: {s3.dtype}\")\ns3\n\nMixed series type: String\n\n\n\nshape: (4,)\n\n\n\nmixed\n\n\nstr\n\n\n\n\n\"1\"\n\n\n\"text\"\n\n\n\"true\"\n\n\n\"3.14\"\n\n\n\n\n\n\nYou can set the data type of the series as well by using the dtype parameter. A example use case is when storing a id number the id number should be stored as a string not a int due to the fact that we we do not want to perform mathmatical operations on the identification number therefore it is best stored as a string.\n\n# strict=False allows automatic conversion from different data types\ns3 = pl.Series(\"id number\", [143823, 194203, 553420, 234325, 236532], dtype=pl.Utf8, strict=False)\ns3\n\n\nshape: (5,)\n\n\n\nid number\n\n\nstr\n\n\n\n\n\"143823\"\n\n\n\"194203\"\n\n\n\"553420\"\n\n\n\"234325\"\n\n\n\"236532\"",
+    "crumbs": [
+      "Getting Started",
+      "Dataframes and Series"
+    ]
+  },
+  {
+    "objectID": "chapter1.html#dataframes",
+    "href": "chapter1.html#dataframes",
+    "title": "Dataframes and Series",
+    "section": "Dataframes",
+    "text": "Dataframes\nDataFrames are tabular data structures (rows and columns) composed of multiple Series, with each column representing a single Series. The design of a dataframe is called schema. A schema is a mapping of column to the data types.\nDataframes are the workhorses of data analysis and what you’ll use most frequently.\nWith DataFrames, you can write powerful queries to filter, transform, aggregate, and reshape your data efficiently.\nDataFrames can be created in several ways:\n\nFrom a dictionary of sequences (lists, arrays)\nWith explicit schema specification\nFrom a sequence of (name, dtype) pairs\nFrom NumPy arrays\nFrom a list of lists (row-oriented data)\nBy converting pandas DataFrames\nBy importing existing tabular data from CSVs, JSON, SQL, Parquet files, etc.\n\nIn real-world environments, you’ll typically work with preexisting data, though understanding various creation methods is valuable. We’ll cover data import techniques later, but for now, here’s an example of a DataFrame created from a dictionary of lists:\n\n# Create a DataFrame from a dictionary of lists\ndf = pl.DataFrame({\n    \"name\": [\"Alice\", \"Bob\", \"Charlie\", \"David\"],\n    \"age\": [25, 30, 35, 40],\n    \"city\": [\"New York\", \"Boston\", \"Chicago\", \"Seattle\"],\n    \"salary\": [75000, 85000, 90000, 95000]\n})\n\ndf\n\n\nshape: (4, 4)\n\n\n\nname\nage\ncity\nsalary\n\n\nstr\ni64\nstr\ni64\n\n\n\n\n\"Alice\"\n25\n\"New York\"\n75000\n\n\n\"Bob\"\n30\n\"Boston\"\n85000\n\n\n\"Charlie\"\n35\n\"Chicago\"\n90000\n\n\n\"David\"\n40\n\"Seattle\"\n95000\n\n\n\n\n\n\nevery data frame has a shape. the shape is the number of rows and columns in a dataframe shape(rows,columns)\nthe shape for the above dataframe is:\n\nprint(df.shape)\n\n(4, 4)\n\n\nyou can view the schema of any dataframe with the following command\n\nprint(df.schema)\n\nSchema({'name': String, 'age': Int64, 'city': String, 'salary': Int64})\n\n\nWe see here that the schema is returned as a dictionary. In the above example the column name has the string datatype. Though you can view the data type already when displaying the dataframe.",
+    "crumbs": [
+      "Getting Started",
+      "Dataframes and Series"
+    ]
+  },
+  {
+    "objectID": "chapter1.html#inspecting-dataframes",
+    "href": "chapter1.html#inspecting-dataframes",
+    "title": "Dataframes and Series",
+    "section": "Inspecting Dataframes",
+    "text": "Inspecting Dataframes\nIn polars there are a varity of ways to inspect a dataframe, all of which have different use cases. The ones that we will be covering right now are:\n\nheadtailglimpsedescribesampleslice\n\n\nthe head functions allows you to view the first x rows of the dataframe. By default the number of rows it shows is 5, though you can specify the number of rows to view.\ndataframe.head(n)\nWhere n is the number of rows to return if you give it a negative number it will turn all rows except the last n rows.\n\nimport numpy as np\n\n# Create NumPy arrays for sandwich data\n# anyone else feeling hungry\nsandwich_names = np.array(['BLT', 'Club', 'Tuna', 'Ham & Cheese', 'Veggie'])\nprices = np.array([8.99, 10.50, 7.50, 6.99, 6.50])\ncalories = np.array([550, 720, 480, 520, 320])\nvegetarian = np.array([False, False, False, False, True])\n\n# Create DataFrame from NumPy arrays\nsandwich_df = pl.DataFrame({\n    \"sandwich\": sandwich_names,\n    \"price\": prices,\n    \"calories\": calories,\n    \"vegetarian\": vegetarian\n})\n\n\nsandwich_df.head(3)\n\n\nshape: (3, 4)\n\n\n\nsandwich\nprice\ncalories\nvegetarian\n\n\nstr\nf64\ni64\nbool\n\n\n\n\n\"BLT\"\n8.99\n550\nfalse\n\n\n\"Club\"\n10.5\n720\nfalse\n\n\n\"Tuna\"\n7.5\n480\nfalse\n\n\n\n\n\n\n\n\n\n\n\n\nTip\n\n\n\nBoth head and tail are useful for quick data exploration without loading the entire dataset.\n\n\n\n\nThe tail function is essentially the inverse of head. It allows you to view the last n rows of the dataframe. The default for tail is also five rows.\ndataframe.tail(n)\nWhere n is the number of rows to return if you give it a negative number it will turn all rows except the first n rows.\n\n# Import data from the sales.csv file into a Polars DataFrame\nsales_df = pl.read_csv(\"./data/sales.csv\")\n\n# Display the last 6 rows of the sales DataFrame\nsales_df.tail(6)\n\n\nshape: (6, 8)\n\n\n\ndate\nregion\nsales_rep\nproduct_category\nunits_sold\nrevenue\ncost\ncustomer_segment\n\n\nstr\nstr\nstr\nstr\ni64\nf64\nf64\nstr\n\n\n\n\n\"2023-01-22\"\n\"East\"\n\"Emma Wilson\"\n\"Furniture\"\n4\n3599.96\n2519.97\n\"SMB\"\n\n\n\"2023-01-23\"\n\"West\"\n\"Michael Brown\"\n\"Electronics\"\n11\n5499.89\n3299.93\n\"Enterprise\"\n\n\n\"2023-01-23\"\n\"North\"\n\"John Smith\"\n\"Office Supplies\"\n83\n1660.0\n996.0\n\"Consumer\"\n\n\n\"2023-01-24\"\n\"South\"\n\"Maria Garcia\"\n\"Software\"\n27\n2699.73\n809.92\n\"SMB\"\n\n\n\"2023-01-24\"\n\"East\"\n\"David Johnson\"\n\"Electronics\"\n6\n2999.94\n1799.96\n\"Enterprise\"\n\n\n\"2023-01-25\"\n\"West\"\n\"Lisa Wong\"\n\"Furniture\"\n8\n7199.92\n5039.94\n\"Consumer\"\n\n\n\n\n\n\n\n\n\n\n\n\nNote\n\n\n\nFor more information on reading in external data see Appendix B.\n\n\n\n\nThe glimpse function allows you to preview your dataframe. By providing the number of rows and columns. The column names and datatypes and the first few values of each column. it can be usefull when tring to gain an intial perspective of the dataframe without requiring in depth overview\ndataframe.glimpse(max_items_per_column)\nYou can leave the parameters blank which I would reccomend in most use cases but you can pass it a number to set the max number of items to return for each column. This can be useful when dealing with a large number of columns.\n\n# Reads data from a parquet file into a Polars DataFrame\n# Parquet is a columnar storage file format optimized for analytics\nfinance_df = pl.read_parquet(\"./data/finance.parquet\")\n\n# The glimpse function: Think of it as speed dating with your data\n# You don't get to know everything, but you'll know if you want a second date\nfinance_df.glimpse()\n\nRows: 1310\nColumns: 10\n$ date           &lt;datetime[ns]&gt; 2024-04-15 00:00:00, 2024-04-16 00:00:00, 2024-04-17 00:00:00, 2024-04-18 00:00:00, 2024-04-19 00:00:00, 2024-04-22 00:00:00, 2024-04-23 00:00:00, 2024-04-24 00:00:00, 2024-04-25 00:00:00, 2024-04-26 00:00:00\n$ ticker                  &lt;str&gt; 'AAPL', 'AAPL', 'AAPL', 'AAPL', 'AAPL', 'AAPL', 'AAPL', 'AAPL', 'AAPL', 'AAPL'\n$ open                    &lt;f64&gt; 215.0, 215.27, 216.07, 220.02, 217.83, 216.56, 215.03, 212.29, 203.8, 206.87\n$ high                    &lt;f64&gt; 215.49, 216.26, 219.1, 222.15, 219.19, 218.67, 216.66, 213.96, 205.52, 209.23\n$ low                     &lt;f64&gt; 214.22, 214.32, 215.91, 218.75, 216.63, 215.46, 214.58, 212.31, 202.66, 205.24\n$ close                   &lt;f64&gt; 215.01, 216.14, 217.16, 220.56, 218.74, 217.13, 215.38, 212.5, 204.28, 207.29\n$ volume                  &lt;i64&gt; 1930612, 2166356, 2108441, 2426330, 2922733, 2282139, 2347011, 2170140, 2601900, 2331680\n$ pe_ratio                &lt;f64&gt; 24.63, 11.55, 37.52, 31.55, 31.33, 12.62, 23.63, 14.16, 13.2, 16.15\n$ dividend_yield          &lt;f64&gt; 0.0255, 0.0005, 0.0002, 0.0161, 0.006, 0.0152, 0.0165, 0.0001, 0.0255, 0.0114\n$ market_cap              &lt;f64&gt; 2664107971.0, 5452883768.0, 6751310057.0, 4539928581.0, 5699638189.0, 6553501976.0, 4761567781.0, 2762079236.0, 5364612742.0, 6232280976.0\n\n\n\n\n\nThe describefunction provides summary statistics for each column, including count, the count of missing values, mean, standard deviation, mininum, maxiumum and the four quartiles.\n\nfinance_df.describe()\n\n\nshape: (9, 11)\n\n\n\nstatistic\ndate\nticker\nopen\nhigh\nlow\nclose\nvolume\npe_ratio\ndividend_yield\nmarket_cap\n\n\nstr\nstr\nstr\nf64\nf64\nf64\nf64\nf64\nf64\nf64\nf64\n\n\n\n\n\"count\"\n\"1310\"\n\"1310\"\n1310.0\n1310.0\n1310.0\n1310.0\n1310.0\n1310.0\n1310.0\n1310.0\n\n\n\"null_count\"\n\"0\"\n\"0\"\n0.0\n0.0\n0.0\n0.0\n0.0\n0.0\n0.0\n0.0\n\n\n\"mean\"\n\"2024-10-13 21:42:35.725190\"\nnull\n309.888687\n312.208565\n309.056229\n310.665\n3.5360e6\n24.924183\n0.014968\n1.3308e10\n\n\n\"std\"\nnull\nnull\n183.806709\n185.216272\n183.266391\n184.279542\n1.9400e6\n8.695993\n0.008674\n1.5527e10\n\n\n\"min\"\n\"2024-04-15 00:00:00\"\n\"AAPL\"\n125.74\n127.01\n125.19\n125.9\n462641.0\n10.03\n0.0\n1.5396e9\n\n\n\"25%\"\n\"2024-07-15 00:00:00\"\nnull\n200.6\n201.72\n199.93\n200.91\n1.889358e6\n17.27\n0.0075\n3.8667e9\n\n\n\"50%\"\n\"2024-10-15 00:00:00\"\nnull\n240.87\n242.6\n240.33\n241.9\n2.994889e6\n25.02\n0.0152\n5.9477e9\n\n\n\"75%\"\n\"2025-01-14 00:00:00\"\nnull\n315.93\n318.79\n316.15\n316.79\n4.9854e6\n32.54\n0.0223\n1.5756e10\n\n\n\"max\"\n\"2025-04-15 00:00:00\"\n\"MSFT\"\n792.59\n801.45\n790.79\n796.05\n1.0040359e7\n39.99\n0.03\n7.0804e10\n\n\n\n\n\n\n\n\n\n\n\n\nNote\n\n\n\nThis will also attempt to find min and max for string values which will be alphabetically.\n\n\n\n\n\nfinance_df.sample(3)\n\n\nshape: (3, 10)\n\n\n\ndate\nticker\nopen\nhigh\nlow\nclose\nvolume\npe_ratio\ndividend_yield\nmarket_cap\n\n\ndatetime[ns]\nstr\nf64\nf64\nf64\nf64\ni64\nf64\nf64\nf64\n\n\n\n\n2024-12-04 00:00:00\n\"GOOG\"\n316.41\n319.24\n316.92\n317.56\n3371174\n13.3\n0.0115\n1.9589e10\n\n\n2024-08-28 00:00:00\n\"AMZN\"\n150.16\n150.41\n149.25\n150.29\n3683198\n33.54\n0.0248\n6.5319e9\n\n\n2024-09-19 00:00:00\n\"META\"\n653.27\n658.49\n649.48\n655.2\n4091409\n12.52\n0.0204\n4.8868e10\n\n\n\n\n\n\n\n\ndataframe.slice(offset, length)\n\nfinance_df.slice(500, 6)\n\n\nshape: (6, 10)\n\n\n\ndate\nticker\nopen\nhigh\nlow\nclose\nvolume\npe_ratio\ndividend_yield\nmarket_cap\n\n\ndatetime[ns]\nstr\nf64\nf64\nf64\nf64\ni64\nf64\nf64\nf64\n\n\n\n\n2025-03-13 00:00:00\n\"MSFT\"\n242.34\n244.05\n242.99\n243.12\n1404084\n27.98\n0.0271\n3.2495e9\n\n\n2025-03-14 00:00:00\n\"MSFT\"\n243.49\n244.84\n243.64\n243.76\n462641\n34.61\n0.0248\n4.0134e9\n\n\n2025-03-17 00:00:00\n\"MSFT\"\n247.86\n250.29\n246.92\n248.3\n1637110\n34.78\n0.0189\n4.8262e9\n\n\n2025-03-18 00:00:00\n\"MSFT\"\n242.34\n244.07\n240.73\n243.06\n1112130\n26.23\n0.0182\n2.6502e9\n\n\n2025-03-19 00:00:00\n\"MSFT\"\n243.08\n245.24\n243.39\n243.84\n1346630\n11.79\n0.0181\n4.6632e9\n\n\n2025-03-20 00:00:00\n\"MSFT\"\n243.86\n245.05\n242.87\n244.5\n1202714\n12.4\n0.0133\n2.4545e9",
+    "crumbs": [
+      "Getting Started",
+      "Dataframes and Series"
+    ]
+  },
+  {
+    "objectID": "chapter2.html",
+    "href": "chapter2.html",
+    "title": "The Four Contexts",
+    "section": "",
+    "text": "The Four Contexts"
+  },
+  {
+    "objectID": "intro.html",
+    "href": "intro.html",
+    "title": "Introduction",
+    "section": "",
+    "text": "Polars is a modern data manipulation library avalible for Python, R, NodeJs and Rust. It is designed as a high-performance alternative to pandas, especially for large datasets. It features syntax that’s both human-readable and similar to R’s data manipulation paradigms. Polars stands out for three main reasons:\n\nPerformance: Built in Rust, Polars delivers exceptional speed through parallel processing by default and a sophisticated query optimizer that analyzes and improves execution plans.\nMemory efficiency: Using a columnar memory format rather than row-based storage, Polars efficiently handles larger-than-memory datasets and performs operations with minimal memory overhead.\nLazy evaluation: Polars supports both eager and lazy execution modes. The lazy API builds optimized query plans before execution, similar to database query planners, resulting in more efficient data processing pipelines.",
+    "crumbs": [
+      "Getting Started",
+      "Introduction"
+    ]
+  },
+  {
+    "objectID": "intro.html#what-is-polars",
+    "href": "intro.html#what-is-polars",
+    "title": "Introduction",
+    "section": "",
+    "text": "Polars is a modern data manipulation library avalible for Python, R, NodeJs and Rust. It is designed as a high-performance alternative to pandas, especially for large datasets. It features syntax that’s both human-readable and similar to R’s data manipulation paradigms. Polars stands out for three main reasons:\n\nPerformance: Built in Rust, Polars delivers exceptional speed through parallel processing by default and a sophisticated query optimizer that analyzes and improves execution plans.\nMemory efficiency: Using a columnar memory format rather than row-based storage, Polars efficiently handles larger-than-memory datasets and performs operations with minimal memory overhead.\nLazy evaluation: Polars supports both eager and lazy execution modes. The lazy API builds optimized query plans before execution, similar to database query planners, resulting in more efficient data processing pipelines.",
+    "crumbs": [
+      "Getting Started",
+      "Introduction"
+    ]
+  },
+  {
+    "objectID": "book_venv/lib/python3.13/site-packages/seaborn-0.13.2.dist-info/LICENSE.html",
+    "href": "book_venv/lib/python3.13/site-packages/seaborn-0.13.2.dist-info/LICENSE.html",
+    "title": "Introduction to Polars",
+    "section": "",
+    "text": "Copyright (c) 2012-2023, Michael L. Waskom All rights reserved.\nRedistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:\n\nRedistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.\nRedistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution.\nNeither the name of the project nor the names of its contributors may be used to endorse or promote products derived from this software without specific prior written permission.\n\nTHIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS “AS IS” AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE."
+  },
+  {
+    "objectID": "book_venv/lib/python3.13/site-packages/httpcore-1.0.8.dist-info/licenses/LICENSE.html",
+    "href": "book_venv/lib/python3.13/site-packages/httpcore-1.0.8.dist-info/licenses/LICENSE.html",
+    "title": "Introduction to Polars",
+    "section": "",
+    "text": "Copyright © 2020, Encode OSS Ltd. All rights reserved.\nRedistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:\n\nRedistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.\nRedistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution.\nNeither the name of the copyright holder nor the names of its contributors may be used to endorse or promote products derived from this software without specific prior written permission.\n\nTHIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS “AS IS” AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE."
+  },
+  {
+    "objectID": "book_venv/lib/python3.13/site-packages/narwhals-1.35.0.dist-info/licenses/LICENSE.html",
+    "href": "book_venv/lib/python3.13/site-packages/narwhals-1.35.0.dist-info/licenses/LICENSE.html",
+    "title": "Introduction to Polars",
+    "section": "",
+    "text": "MIT License\nCopyright (c) 2024, Marco Gorelli\nPermission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the “Software”), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:\nThe above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.\nTHE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE."
+  },
+  {
+    "objectID": "book_venv/lib/python3.13/site-packages/pyzmq-26.4.0.dist-info/licenses/LICENSE.html",
+    "href": "book_venv/lib/python3.13/site-packages/pyzmq-26.4.0.dist-info/licenses/LICENSE.html",
+    "title": "Introduction to Polars",
+    "section": "",
+    "text": "BSD 3-Clause License\nCopyright (c) 2009-2012, Brian Granger, Min Ragan-Kelley\nAll rights reserved.\nRedistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:\n\nRedistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.\nRedistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution.\nNeither the name of the copyright holder nor the names of its contributors may be used to endorse or promote products derived from this software without specific prior written permission.\n\nTHIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS “AS IS” AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE."
+  },
+  {
+    "objectID": "appendix2.html",
+    "href": "appendix2.html",
+    "title": "Reading and Writing Data",
+    "section": "",
+    "text": "Polars provides robust capabilities for importing data from various sources including CSVs, JSONs, Excel spreadsheets, Parquet files, cloud storage solutions (AWS, Azure, and Google Cloud), and databases.\nThe importing methods follow a consistent pattern across file types, making it easy to work with different data formats.\n\n\nThe basic syntax for reading a CSV file is:\npl.read_csv(\"path/to/data.csv\")\nAlternatively, you can also read CSV files directly from the internet:\npl.read_csv(\"https://example.com/path/to/your/file.csv\")\nThis capability to read files directly from URLs also works with all the file import methods we’ll cover below.\nThis function offers numerous parameters to handle different CSV formats and configurations. For more information read the documentation.\n\nimport polars as pl\n\ndf_csv = pl.read_csv(\"./data/example.csv\", try_parse_dates=True)\ndf_csv.head(5)\n\n\nshape: (5, 9)\n\n\n\nid\nfirst_name\nlast_name\nemail\npurchase_date\nproduct\nquantity\nprice\ntotal\n\n\ni64\nstr\nstr\nstr\ndate\nstr\ni64\nf64\nf64\n\n\n\n\n1\n\"John\"\n\"Doe\"\n\"john.doe@example.com\"\n2023-01-15\n\"Laptop\"\n1\n1299.99\n1299.99\n\n\n2\n\"Jane\"\n\"Smith\"\n\"jane.smith@example.com\"\n2023-01-16\n\"Smartphone\"\n2\n699.95\n1399.9\n\n\n3\n\"Robert\"\n\"Johnson\"\n\"rob.j@example.com\"\n2023-01-18\n\"Headphones, Wireless\"\n3\n89.99\n269.97\n\n\n4\n\"Sarah\"\n\"Williams\"\n\"sarah.w@example.com\"\n2023-01-20\n\"Monitor\"\n1\n249.5\n249.5\n\n\n5\n\"Michael\"\n\"Brown\"\n\"michael.b@example.com\"\n2023-01-22\n\"Keyboard\"\n2\n59.99\n119.98\n\n\n\n\n\n\n\n\n\nReading JSON files follows a similar pattern. The basic syntax is:\npl.read_json(\"docs/data/path.json\")\nJSON files have a more standardized structure than CSVs, so the reading process requires fewer configuration parameters. Polars handles JSON parsing efficiently with minimal setup. For advanced options and configurations, consult the official documentation.\ndf_json = pl.read_json(\"./data/basketball.json\")\n\ndf_json\n\n\n\nPolars doesn’t include a native Excel reader. Instead, it leverages external libraries like fastexcel, xlsx2csv, or openpyxl to parse Excel files into Polars-compatible formats. Among these options, Polars recommends fastexcel for optimal performance.\nWhile it’s generally better to avoid using Excel files where possible (you can usually export as CSV directly from Excel), reading Excel files is straightforward with the right dependencies installed.\nBefore attempting to read Excel files, make sure you have at least one of these libraries installed:\n $ pip install fastexcel xlsx2csv openpyxl\nThe basic syntax for reading an Excel file with Polars is:\npl.read_excel(\"path/to/data.xlsx\")\nIf your Excel file contains multiple sheets, you can specify which one to read using the sheet_name parameter:\ndf = pl.read_excel(\"path/to/data.xlsx\", sheet_name=\"example\")\nFor additional Excel reading options and parameters, refer to the Polars Excel documentation, which covers sheet selection, range specification, and handling of complex Excel files.\n\ndf_xlsx = pl.read_excel(\"./data/penguins.xlsx\", sheet_name=\"Dream Island\")\n\ndf_xlsx.tail(5)\n\n\nshape: (5, 8)\n\n\n\nspecies\nisland\nbill_length_mm\nbill_depth_mm\nflipper_length_mm\nbody_mass_g\nsex\nyear\n\n\nstr\nstr\nf64\nf64\ni64\ni64\nstr\ni64\n\n\n\n\n\"Chinstrap\"\n\"Dream\"\n55.8\n19.8\n207\n4000\n\"male\"\n2009\n\n\n\"Chinstrap\"\n\"Dream\"\n43.5\n18.1\n202\n3400\n\"female\"\n2009\n\n\n\"Chinstrap\"\n\"Dream\"\n49.6\n18.2\n193\n3775\n\"male\"\n2009\n\n\n\"Chinstrap\"\n\"Dream\"\n50.8\n19.0\n210\n4100\n\"male\"\n2009\n\n\n\"Chinstrap\"\n\"Dream\"\n50.2\n18.7\n198\n3775\n\"female\"\n2009\n\n\n\n\n\n\nThis example spreadsheet can be accessed via this Google Sheets link.\n\n\n\nParquet is a columnar storage format designed for efficient data analytics. It provides excellent compression and fast query performance, making it a popular choice for data science workflows. Polars includes native, high-performance support for reading Parquet files.\nThe basic syntax for reading a Parquet file is:\npl.read_parquet(\"path/to/data.parquet\")\n\ndf_par = pl.read_parquet(\"./data/finance.parquet\")\ndf_par.sample(4)\n\n\nshape: (4, 10)\n\n\n\ndate\nticker\nopen\nhigh\nlow\nclose\nvolume\npe_ratio\ndividend_yield\nmarket_cap\n\n\ndatetime[ns]\nstr\nf64\nf64\nf64\nf64\ni64\nf64\nf64\nf64\n\n\n\n\n2025-04-15 00:00:00\n\"AMZN\"\n172.09\n173.59\n172.11\n172.22\n3790482\n30.6\n0.011\n6.6487e9\n\n\n2024-08-14 00:00:00\n\"AAPL\"\n229.11\n231.08\n227.14\n229.31\n2458376\n14.99\n0.0231\n5.8412e9\n\n\n2024-07-12 00:00:00\n\"META\"\n580.71\n585.32\n579.26\n582.12\n8504439\n26.96\n0.0215\n2.2429e10\n\n\n2024-12-30 00:00:00\n\"MSFT\"\n207.49\n209.6\n205.9\n207.76\n1137005\n18.92\n0.0069\n2.8652e9\n\n\n\n\n\n\n\n\n\nFor situations where you need to combine data from multiple files into a single DataFrame, Polars offers straightforward approaches. While the syntax is relatively simple, the implementation may vary depending on your specific file organization.\nWhen working with multiple files of the same type and similar naming patterns in a single directory, Polars supports glob pattern matching:\npl.read_filetype(\"path/to/data/my_many_files_*.filetype\")\nFor files with different names but the same format, placing them in a single directory allows you to use wildcard patterns to import them all at once:\npl.read_filetype(\"path/to/data/import/*.filetype\")\nAlternatively, for files located in different directories or even on different servers, you can provide a list of filepaths or URLs:\npl.read_filetype([\n    \"path/to/first/file.filetype\",\n    \"path/to/second/file.filetype\",\n    \"another/location/file.filetype\"\n])\nIf you’re working with different file types that share the same schema (identical columns and datatypes) and want to combine them into a single DataFrame, you’ll need to read each file individually and then concatenate them. Polars makes this process straightforward with its concat function, which can merge DataFrames regardless of their original file formats.\n# Read files of different formats\ndf1 = pl.read_csv(\"path/to/file.csv\")\ndf2 = pl.read_parquet(\"path/to/file.parquet\")\ndf3 = pl.read_json(\"path/to/file.json\")\n\n# Concatenate into a single DataFrame\ncombined_df = pl.concat([df1, df2, df3], how=\"vertical\")",
+    "crumbs": [
+      "Appendices",
+      "Reading and Writing Data"
+    ]
+  },
+  {
+    "objectID": "appendix2.html#csv-files",
+    "href": "appendix2.html#csv-files",
+    "title": "Reading and Writing Data",
+    "section": "",
+    "text": "The basic syntax for reading a CSV file is:\npl.read_csv(\"path/to/data.csv\")\nAlternatively, you can also read CSV files directly from the internet:\npl.read_csv(\"https://example.com/path/to/your/file.csv\")\nThis capability to read files directly from URLs also works with all the file import methods we’ll cover below.\nThis function offers numerous parameters to handle different CSV formats and configurations. For more information read the documentation.\n\nimport polars as pl\n\ndf_csv = pl.read_csv(\"./data/example.csv\", try_parse_dates=True)\ndf_csv.head(5)\n\n\nshape: (5, 9)\n\n\n\nid\nfirst_name\nlast_name\nemail\npurchase_date\nproduct\nquantity\nprice\ntotal\n\n\ni64\nstr\nstr\nstr\ndate\nstr\ni64\nf64\nf64\n\n\n\n\n1\n\"John\"\n\"Doe\"\n\"john.doe@example.com\"\n2023-01-15\n\"Laptop\"\n1\n1299.99\n1299.99\n\n\n2\n\"Jane\"\n\"Smith\"\n\"jane.smith@example.com\"\n2023-01-16\n\"Smartphone\"\n2\n699.95\n1399.9\n\n\n3\n\"Robert\"\n\"Johnson\"\n\"rob.j@example.com\"\n2023-01-18\n\"Headphones, Wireless\"\n3\n89.99\n269.97\n\n\n4\n\"Sarah\"\n\"Williams\"\n\"sarah.w@example.com\"\n2023-01-20\n\"Monitor\"\n1\n249.5\n249.5\n\n\n5\n\"Michael\"\n\"Brown\"\n\"michael.b@example.com\"\n2023-01-22\n\"Keyboard\"\n2\n59.99\n119.98",
+    "crumbs": [
+      "Appendices",
+      "Reading and Writing Data"
+    ]
+  },
+  {
+    "objectID": "appendix2.html#json-files",
+    "href": "appendix2.html#json-files",
+    "title": "Reading and Writing Data",
+    "section": "",
+    "text": "Reading JSON files follows a similar pattern. The basic syntax is:\npl.read_json(\"docs/data/path.json\")\nJSON files have a more standardized structure than CSVs, so the reading process requires fewer configuration parameters. Polars handles JSON parsing efficiently with minimal setup. For advanced options and configurations, consult the official documentation.\ndf_json = pl.read_json(\"./data/basketball.json\")\n\ndf_json",
+    "crumbs": [
+      "Appendices",
+      "Reading and Writing Data"
+    ]
+  },
+  {
+    "objectID": "appendix2.html#excel",
+    "href": "appendix2.html#excel",
+    "title": "Reading and Writing Data",
+    "section": "",
+    "text": "Polars doesn’t include a native Excel reader. Instead, it leverages external libraries like fastexcel, xlsx2csv, or openpyxl to parse Excel files into Polars-compatible formats. Among these options, Polars recommends fastexcel for optimal performance.\nWhile it’s generally better to avoid using Excel files where possible (you can usually export as CSV directly from Excel), reading Excel files is straightforward with the right dependencies installed.\nBefore attempting to read Excel files, make sure you have at least one of these libraries installed:\n $ pip install fastexcel xlsx2csv openpyxl\nThe basic syntax for reading an Excel file with Polars is:\npl.read_excel(\"path/to/data.xlsx\")\nIf your Excel file contains multiple sheets, you can specify which one to read using the sheet_name parameter:\ndf = pl.read_excel(\"path/to/data.xlsx\", sheet_name=\"example\")\nFor additional Excel reading options and parameters, refer to the Polars Excel documentation, which covers sheet selection, range specification, and handling of complex Excel files.\n\ndf_xlsx = pl.read_excel(\"./data/penguins.xlsx\", sheet_name=\"Dream Island\")\n\ndf_xlsx.tail(5)\n\n\nshape: (5, 8)\n\n\n\nspecies\nisland\nbill_length_mm\nbill_depth_mm\nflipper_length_mm\nbody_mass_g\nsex\nyear\n\n\nstr\nstr\nf64\nf64\ni64\ni64\nstr\ni64\n\n\n\n\n\"Chinstrap\"\n\"Dream\"\n55.8\n19.8\n207\n4000\n\"male\"\n2009\n\n\n\"Chinstrap\"\n\"Dream\"\n43.5\n18.1\n202\n3400\n\"female\"\n2009\n\n\n\"Chinstrap\"\n\"Dream\"\n49.6\n18.2\n193\n3775\n\"male\"\n2009\n\n\n\"Chinstrap\"\n\"Dream\"\n50.8\n19.0\n210\n4100\n\"male\"\n2009\n\n\n\"Chinstrap\"\n\"Dream\"\n50.2\n18.7\n198\n3775\n\"female\"\n2009\n\n\n\n\n\n\nThis example spreadsheet can be accessed via this Google Sheets link.",
+    "crumbs": [
+      "Appendices",
+      "Reading and Writing Data"
+    ]
+  },
+  {
+    "objectID": "appendix2.html#parquet-files",
+    "href": "appendix2.html#parquet-files",
+    "title": "Reading and Writing Data",
+    "section": "",
+    "text": "Parquet is a columnar storage format designed for efficient data analytics. It provides excellent compression and fast query performance, making it a popular choice for data science workflows. Polars includes native, high-performance support for reading Parquet files.\nThe basic syntax for reading a Parquet file is:\npl.read_parquet(\"path/to/data.parquet\")\n\ndf_par = pl.read_parquet(\"./data/finance.parquet\")\ndf_par.sample(4)\n\n\nshape: (4, 10)\n\n\n\ndate\nticker\nopen\nhigh\nlow\nclose\nvolume\npe_ratio\ndividend_yield\nmarket_cap\n\n\ndatetime[ns]\nstr\nf64\nf64\nf64\nf64\ni64\nf64\nf64\nf64\n\n\n\n\n2025-04-15 00:00:00\n\"AMZN\"\n172.09\n173.59\n172.11\n172.22\n3790482\n30.6\n0.011\n6.6487e9\n\n\n2024-08-14 00:00:00\n\"AAPL\"\n229.11\n231.08\n227.14\n229.31\n2458376\n14.99\n0.0231\n5.8412e9\n\n\n2024-07-12 00:00:00\n\"META\"\n580.71\n585.32\n579.26\n582.12\n8504439\n26.96\n0.0215\n2.2429e10\n\n\n2024-12-30 00:00:00\n\"MSFT\"\n207.49\n209.6\n205.9\n207.76\n1137005\n18.92\n0.0069\n2.8652e9",
+    "crumbs": [
+      "Appendices",
+      "Reading and Writing Data"
+    ]
+  },
+  {
+    "objectID": "appendix2.html#importing-mutiple-files",
+    "href": "appendix2.html#importing-mutiple-files",
+    "title": "Reading and Writing Data",
+    "section": "",
+    "text": "For situations where you need to combine data from multiple files into a single DataFrame, Polars offers straightforward approaches. While the syntax is relatively simple, the implementation may vary depending on your specific file organization.\nWhen working with multiple files of the same type and similar naming patterns in a single directory, Polars supports glob pattern matching:\npl.read_filetype(\"path/to/data/my_many_files_*.filetype\")\nFor files with different names but the same format, placing them in a single directory allows you to use wildcard patterns to import them all at once:\npl.read_filetype(\"path/to/data/import/*.filetype\")\nAlternatively, for files located in different directories or even on different servers, you can provide a list of filepaths or URLs:\npl.read_filetype([\n    \"path/to/first/file.filetype\",\n    \"path/to/second/file.filetype\",\n    \"another/location/file.filetype\"\n])\nIf you’re working with different file types that share the same schema (identical columns and datatypes) and want to combine them into a single DataFrame, you’ll need to read each file individually and then concatenate them. Polars makes this process straightforward with its concat function, which can merge DataFrames regardless of their original file formats.\n# Read files of different formats\ndf1 = pl.read_csv(\"path/to/file.csv\")\ndf2 = pl.read_parquet(\"path/to/file.parquet\")\ndf3 = pl.read_json(\"path/to/file.json\")\n\n# Concatenate into a single DataFrame\ncombined_df = pl.concat([df1, df2, df3], how=\"vertical\")",
+    "crumbs": [
+      "Appendices",
+      "Reading and Writing Data"
+    ]
+  },
+  {
+    "objectID": "appendix1.html",
+    "href": "appendix1.html",
+    "title": "Common Data Types",
+    "section": "",
+    "text": "Common Data Types\n\n\n\n\n\n\n\n\n\nData Type\nPolars Type\nDescription\nExample\n\n\n\n\nStrings\npl.Utf8\nText data\n\"hello\"\n\n\nSigned Integers\npl.Int8, pl.Int16, pl.Int32, pl.Int64\nWhole numbers that can be positive or negative\n-42\n\n\nUnsigned Integers\npl.UInt8, pl.UInt16, pl.UInt32, pl.UInt64\nWhole numbers that can only be positive\n42\n\n\nFloating Point\npl.Float32, pl.Float64\nReal numbers with decimal points\n3.14159\n\n\nDecimals\npl.Decimal\nFixed-precision numbers, useful for financial calculations\nDecimal(\"10.99\")\n\n\nDates/DateTimes\npl.Date, pl.Datetime\nCalendar dates and time values\n2023-01-01, 2023-01-01T12:30:00\n\n\nBooleans\npl.Boolean\nLogical values: true or false\nTrue, False\n\n\nTime\npl.Time\nTime of day without date\n12:30:45\n\n\nDuration\npl.Duration\nTime spans or intervals\n3d 12h 30m 45s\n\n\nCategorical\npl.Categorical\nEfficient storage for repeated string values\npl.Series([\"a\", \"b\", \"a\"]).cast(pl.Categorical)\n\n\nList\npl.List\nLists of values of any type\n[1, 2, 3]\n\n\nStruct\npl.Struct\nComposite type with named fields\n{\"field1\": 1, \"field2\": \"a\"}\n\n\nNull\npl.Null\nMissing or undefined values\nNone or null",
+    "crumbs": [
+      "Appendices",
+      "Common Data Types"
+    ]
+  },
+  {
+    "objectID": "book_venv/lib/python3.13/site-packages/soupsieve-2.7.dist-info/licenses/LICENSE.html",
+    "href": "book_venv/lib/python3.13/site-packages/soupsieve-2.7.dist-info/licenses/LICENSE.html",
+    "title": "Introduction to Polars",
+    "section": "",
+    "text": "MIT License\nCopyright (c) 2018 - 2025 Isaac Muse isaacmuse@gmail.com\nPermission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the “Software”), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:\nThe above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.\nTHE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE."
+  },
+  {
+    "objectID": "book_venv/lib/python3.13/site-packages/numpy/random/LICENSE.html",
+    "href": "book_venv/lib/python3.13/site-packages/numpy/random/LICENSE.html",
+    "title": "NCSA Open Source License",
+    "section": "",
+    "text": "This software is dual-licensed under the The University of Illinois/NCSA Open Source License (NCSA) and The 3-Clause BSD License\n\nNCSA Open Source License\nCopyright (c) 2019 Kevin Sheppard. All rights reserved.\nDeveloped by: Kevin Sheppard (kevin.sheppard@economics.ox.ac.uk, kevin.k.sheppard@gmail.com) http://www.kevinsheppard.com\nPermission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the “Software”), to deal with the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:\nRedistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimers.\nRedistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimers in the documentation and/or other materials provided with the distribution.\nNeither the names of Kevin Sheppard, nor the names of any contributors may be used to endorse or promote products derived from this Software without specific prior written permission.\nTHE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE CONTRIBUTORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS WITH THE SOFTWARE.\n\n\n3-Clause BSD License\nCopyright (c) 2019 Kevin Sheppard. All rights reserved.\nRedistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:\n\nRedistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.\nRedistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution.\nNeither the name of the copyright holder nor the names of its contributors may be used to endorse or promote products derived from this software without specific prior written permission.\n\nTHIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS “AS IS” AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.\n\n\nComponents\nMany parts of this module have been derived from original sources, often the algorithm’s designer. Component licenses are located with the component code."
+  },
+  {
+    "objectID": "book_venv/lib/python3.13/site-packages/idna-3.10.dist-info/LICENSE.html",
+    "href": "book_venv/lib/python3.13/site-packages/idna-3.10.dist-info/LICENSE.html",
+    "title": "Introduction to Polars",
+    "section": "",
+    "text": "BSD 3-Clause License\nCopyright (c) 2013-2024, Kim Davies and contributors. All rights reserved.\nRedistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:\n\nRedistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.\nRedistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution.\nNeither the name of the copyright holder nor the names of its contributors may be used to endorse or promote products derived from this software without specific prior written permission.\n\nTHIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS “AS IS” AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE."
+  },
+  {
+    "objectID": "book_venv/lib/python3.13/site-packages/httpx-0.28.1.dist-info/licenses/LICENSE.html",
+    "href": "book_venv/lib/python3.13/site-packages/httpx-0.28.1.dist-info/licenses/LICENSE.html",
+    "title": "Introduction to Polars",
+    "section": "",
+    "text": "Copyright © 2019, Encode OSS Ltd. All rights reserved.\nRedistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:\n\nRedistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.\nRedistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution.\nNeither the name of the copyright holder nor the names of its contributors may be used to endorse or promote products derived from this software without specific prior written permission.\n\nTHIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS “AS IS” AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE."
+  },
+  {
+    "objectID": "about.html",
+    "href": "about.html",
+    "title": "About the Author",
+    "section": "",
+    "text": "About the Author\n\n\nI’m a Data Science student at Brigham Young University-Idaho with expertise in Python programming, data analysis, database management, and cybersecurity fundamentals. My journey in data science combines technical skills with practical problem-solving abilities.\n\n GitHub  LinkedIn  Website",
+    "crumbs": [
+      "Getting Started",
+      "About the Author"
+    ]
+  },
+  {
+    "objectID": "installation.html",
+    "href": "installation.html",
+    "title": "Installation",
+    "section": "",
+    "text": "Polars can be installed using pip:\npip install polars\n\n\n\nPolars offers various optional dependencies for specific use cases, which are omitted to reduce the footprint of the library. Throught this guide I will mention when specific dependancts are required/used.\nTo install all optional dependencies:\npip install 'polars[all]'\n\n\n\n\n\n\nNote\n\n\n\nI recommend installing all optional dependencies due to convenience. And the fact that the relative footprint is still not excessive.\n\n\n\n\nPolars offers the following dependencys for increased interoperability between different librarys.\n\npandas: allows conversion to and from pandas dataframes/series\nnumpy: allows conversion between numpy arrays\npyarrow:allows for data conversion between PyArrow tables and arrays\npydantic: allows for conversion from Pydantic models to polars\n\npip install 'polars[pandas, numpy, pyarrow, pydantic]' # remove the unused dependencies\n\n\n\nPolars has a few options for different engines used to convert xlsx files to a format more readable by polars.\nThe different engines avalible are:\n\ncalamine\nopenpyxl\nxlsx2csv\n\n\n\n\n\n\n\nTip\n\n\n\nThere are some differences in the engines performance and behaviour to learn more see the official documentation.\n\n\nAdditionally Polars support one other optional dependency related to Excel: - xlsxwriter: which allows you to write to xlsx files\npip install 'polars[excel]' # if you want to install all Excel dependencies\npip install 'polars[calamine, openpyxl, xlsx2csv, xlsxwriter]' # if you want to pick and chose",
+    "crumbs": [
+      "Getting Started",
+      "Installation"
+    ]
+  },
+  {
+    "objectID": "installation.html#basic-installation",
+    "href": "installation.html#basic-installation",
+    "title": "Installation",
+    "section": "",
+    "text": "Polars can be installed using pip:\npip install polars",
+    "crumbs": [
+      "Getting Started",
+      "Installation"
+    ]
+  },
+  {
+    "objectID": "installation.html#optional-dependencies",
+    "href": "installation.html#optional-dependencies",
+    "title": "Installation",
+    "section": "",
+    "text": "Polars offers various optional dependencies for specific use cases, which are omitted to reduce the footprint of the library. Throught this guide I will mention when specific dependancts are required/used.\nTo install all optional dependencies:\npip install 'polars[all]'\n\n\n\n\n\n\nNote\n\n\n\nI recommend installing all optional dependencies due to convenience. And the fact that the relative footprint is still not excessive.\n\n\n\n\nPolars offers the following dependencys for increased interoperability between different librarys.\n\npandas: allows conversion to and from pandas dataframes/series\nnumpy: allows conversion between numpy arrays\npyarrow:allows for data conversion between PyArrow tables and arrays\npydantic: allows for conversion from Pydantic models to polars\n\npip install 'polars[pandas, numpy, pyarrow, pydantic]' # remove the unused dependencies\n\n\n\nPolars has a few options for different engines used to convert xlsx files to a format more readable by polars.\nThe different engines avalible are:\n\ncalamine\nopenpyxl\nxlsx2csv\n\n\n\n\n\n\n\nTip\n\n\n\nThere are some differences in the engines performance and behaviour to learn more see the official documentation.\n\n\nAdditionally Polars support one other optional dependency related to Excel: - xlsxwriter: which allows you to write to xlsx files\npip install 'polars[excel]' # if you want to install all Excel dependencies\npip install 'polars[calamine, openpyxl, xlsx2csv, xlsxwriter]' # if you want to pick and chose",
+    "crumbs": [
+      "Getting Started",
+      "Installation"
+    ]
+  }
+]

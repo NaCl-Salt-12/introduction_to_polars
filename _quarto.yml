@@ -1,58 +1,35 @@
 project:
-  type: book
-  output-dir: docs
+  type: website
 
-output:
-  html:
-    toc: true
-    toc-location: right
-    toc-depth: 2
-    theme: cosmos
-    css: styles.css
-  pdf:
-    toc: true
-    toc-location: right
-    toc-depth: 2
-    theme: cosmos
-    css: styles.css
-
-
-book:
+website:
   title: "Introduction to Polars"
-  subtitle: "A Beginners Guide to Data Analysis with Polars in Python"
-  author: "Nathaniel Clark"
-  date: "2025-04-20"
-  chapters:
-    - index.qmd
-    - about.qmd
-    - intro.qmd
-    - installation.qmd
-    - chapter1.qmd
-    - chapter2.qmd
-  appendices: 
-    - appendix1.qmd
-    - appendix2.qmd
-  navbar:
-    background: primary
+  description: "A Beginners Guide to Data Analysis with Polars in Python"
+  repo-url: https://github.com/r-wasm/quarto-live
+  repo-actions: [issue]
+  page-navigation: true
+  sidebar:
+    contents:
+      - href: index.qmd
+      - section: Getting Started
+        contents:
+         - about.qmd
+         - intro.qmd
+         - installation.qmd
+         - chapter1.qmd
+         - chapter2.qmd
+      - section: Appendices
+        contents:
+          - appendix1.qmd
+          - appendix2.qmd
+theme:
+  light: cosmo
+  dark: darkly
 
-  page-footer: 
-    border: true
-    left: "Nathaniel Clark 2025©"
-    right: 
-      - icon: linkedin
-        href: https://www.linkedin.com/in/nathaniel-e-clark/
-      - icon: github
-        href: https://github.com/NaCl-Salt-12
-      - icon: globe
-        href: https://nacl-salt-12.github.io/dataclark/
- 
-format:
-  html:
-    theme: cosmos
-    css: styles.css
-    toc: true
-    toc-location: right
-    toc-depth: 2
-  pdf:
-    toc: true
-    toc-depth: 2
+page-footer: 
+  border: true
+  left: "Nathaniel Clark 2025©"
+  right: 
+    - icon: linkedin
+      href: https://www.linkedin.com/in/nathaniel-e-clark/
+    - icon: github
+      href:

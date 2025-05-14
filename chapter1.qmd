@@ -9,11 +9,11 @@ Polars allows you to store data in a variety of formats called data types. These
 - **Temporal**: Dates, datetimes, and times for working with time-based data
 - **Miscellaneous**: Strings, binary data, Booleans, categoricals, enums, and objects
 
-The most common data types you will be working with are generally: Strings, signed and unsigned integers, floating point numbers or floats, decimals, dates or datetimes and booleans. For more information on each of these data types see @sec-appendix-a.
+The most common data types you will be working with are generally: Strings, signed and unsigned integers, floating point numbers or floats, decimals, dates or datetimes and booleans. For more information on each of these data types see [Appendix A](appendix1.qmd).
 
 ## Series
 
-The two most common data structures in Polars are DataFrames and Series. Series are one-dimensional data structures where all elements share the same datatype. Think of a Series as a single column in a table - it’s essentially a named array of data.
+The two most common data structures in Polars are DataFrames and Series. Series are one-dimensional data structures where all elements share the same datatype. Think of a Series as a single column in a table - it's essentially a named array of data. If a DataFrame is like a spreadsheet, a Series is like a single column in Excel that you've given a name.
 
 Creating a Series is straightforward with the following syntax:
 
@@ -30,7 +30,9 @@ When you create a series Polars will infer the data type for the values you prov
 
 
 ```{python}
-s2 = pl.Series("payment", [132.50, 120, 116, 98.75 ,42])
+# When you create a series Polars will infer the data type
+# Much like how my roomate "infers" that 3 AM is the perfect time to get a snack
+s2 = pl.Series("payment", [132.50, 120, 116, 98.75, 42])
 s2
 ```
 
@@ -98,17 +100,12 @@ print(df.schema)
 
 We see here that the schema is returned as a dictionary. In the above example the column name has the string datatype. Though you can view the data type already when displaying the dataframe.
 
-## Inspecting Dataframes
+## Inspecting Dataframes 
 
 In polars there are a varity of ways to inspect a dataframe, all of which have different use cases. The ones that we will be covering right now are:
 
-- head 
-- tail 
-- glimpse
-- sample
-- describe
-- slice
 
+:::{.panel-tabset}
 ### head 
 
 the `head` functions allows you to view the first x rows of the dataframe. By default the number of rows it shows is 5, though you can specify the number of rows to view.
@@ -122,6 +119,7 @@ Where n is the number of rows to return if you give it a negative number it will
 import numpy as np
 
 # Create NumPy arrays for sandwich data
+# anyone else feeling hungry
 sandwich_names = np.array(['BLT', 'Club', 'Tuna', 'Ham & Cheese', 'Veggie'])
 prices = np.array([8.99, 10.50, 7.50, 6.99, 6.50])
 calories = np.array([550, 720, 480, 520, 320])
@@ -162,7 +160,7 @@ sales_df.tail(6)
 ```
 
 ::: {.callout-note}
-For more information on reading in external data see @sec-appendix-b
+For more information on reading in external data see [Appendix B](appendix2.qmd#sec-appendix-b).
 :::
 
 ### glimpse
@@ -172,26 +170,34 @@ The `glimpse` function allows you to preview your dataframe. By providing the nu
 ```python
 dataframe.glimpse(max_items_per_column)
 ```
-You can leave the parameters blank which I would reccomend in most use cases but you can pass it a number to set the max number of items to return for each column.
+You can leave the parameters blank which I would reccomend in most use cases but you can pass it a number to set the max number of items to return for each column. This can be useful when dealing with a large number of columns.
 
 ```{python}
 # Reads data from a parquet file into a Polars DataFrame
 # Parquet is a columnar storage file format optimized for analytics
 finance_df = pl.read_parquet("./data/finance.parquet")
 
-# Display a summary overview of the DataFrame
+# The glimpse function: Think of it as speed dating with your data
+# You don't get to know everything, but you'll know if you want a second date
 finance_df.glimpse()
 ```
 
+
 ### describe
 
+The `describe`function provides summary statistics for each column, including count, the count of missing values, mean, standard deviation, mininum, maxiumum and the four quartiles.
 
 ```{python}
 finance_df.describe()
 ```
 
 
+::: {.callout-note}
+This will also attempt to find min and max for string values which will be alphabetically.
+:::
+
 ### sample
+
 
 
 ```{python}
