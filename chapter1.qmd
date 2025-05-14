@@ -1,4 +1,7 @@
-# Dataframes and Series 
+---
+title: Dataframes and Series
+format: live-html
+---
 
 ## Data types
 
@@ -215,3 +218,6 @@ finance_df.slice(500, 6)
 ```
 
 
+## Summary
+
+## Practice
