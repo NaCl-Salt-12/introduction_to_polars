@@ -1,0 +1,19 @@
+# Core dependencies
+polars
+numpy
+pandas
+pyarrow
+
+# Jupyter and rendering dependencies
+jupyter
+pyyaml
+ipykernel
+
+# Excel dependencies (for examples that use Excel files)
+openpyxl
+xlsx2csv
+xlsxwriter
+
+# Optional visualization libraries if used in examples
+matplotlib
+seaborn
