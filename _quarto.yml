@@ -9,7 +9,7 @@ website:
   page-navigation: true
   sidebar:
     contents:
-      - href: index.qmd
+      - index.qmd
       - section: Getting Started
         contents:
          - about.qmd
